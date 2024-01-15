@@ -117,3 +117,13 @@ export const findGetCourtOverCurrentCourt = async (cardIds?: string[]) => {
     ],
   });
 };
+
+export const updatePublicFlg = async (id: number, public_flg: boolean) =>
+  prisma.getCourt.update({
+    where: {
+      id,
+    },
+    data: {
+      public_flg,
+    },
+  });
