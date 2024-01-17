@@ -3,6 +3,8 @@ import { Navbar } from '@/src/app/_layouts';
 import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
 import { ManageCourtList } from '@/src/app/manage/_components/ManageCourtList';
 
+export const dynamic = 'force-dynamic';
+
 const ManageCourtPage = async () => {
   const getCourtList = await findGetCourtOverCurrentCourt();
   return (
