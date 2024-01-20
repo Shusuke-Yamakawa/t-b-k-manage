@@ -55,7 +55,10 @@ export const findGetCourtById = async (id: number) =>
  * 現在日付以降のコート取得情報を取得する
  * @param cardIds 指定すると指定したカードID以外の情報を取得する
  */
-export const findGetCourtOverCurrentCourt = async (cardIds?: string[]) => {
+export const findGetCourtOverCurrentCourt = async (options?: {
+  cardIds?: string[];
+  publicFlg?: boolean;
+}) => {
   const date = currentDate();
   const month = date.month() + 1;
   let nextMonths = month;
@@ -100,8 +103,14 @@ export const findGetCourtOverCurrentCourt = async (cardIds?: string[]) => {
     ],
   } as any;
 
+  const { cardIds, publicFlg } = options || {};
+
   if (cardIds && cardIds.length > 0) {
     whereConditions.card_id = { not: { in: cardIds } };
+  }
+
+  if (publicFlg !== undefined) {
+    whereConditions.public_flg = publicFlg;
   }
 
   return prisma.getCourt.findMany({
