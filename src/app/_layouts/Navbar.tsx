@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Button } from '@mantine/core';
+import { signOut } from 'next-auth/react';
 import classes from './Navbar.module.css';
 
 const data = [
@@ -26,6 +28,18 @@ export const Navbar = () => {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{links}</div>
+      <Button
+        color="gray"
+        className={classes.logout}
+        type="button"
+        onClick={async () => {
+          console.log('logout');
+          await signOut();
+          window.location.href = '/login';
+        }}
+      >
+        ログアウト
+      </Button>
     </nav>
   );
 };
