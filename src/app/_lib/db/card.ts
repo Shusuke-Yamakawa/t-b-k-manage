@@ -6,6 +6,7 @@ export type Card = {
   user_nm: string;
   available_flg: boolean;
   draw_flg: boolean;
+  admin_flg: boolean;
   note: string;
 };
 
@@ -27,6 +28,14 @@ export const findCardById = async (cardId: string) =>
   prisma.card.findUnique({
     where: {
       card_id: cardId,
+    },
+  });
+
+export const findCardByIdAndPassword = async (cardId: string, password: string) =>
+  prisma.card.findUnique({
+    where: {
+      card_id: cardId,
+      password,
     },
   });
 
