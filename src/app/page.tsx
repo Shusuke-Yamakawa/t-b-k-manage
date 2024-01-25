@@ -1,13 +1,10 @@
-// import puppeteer from 'puppeteer';
-import { Flex } from '@mantine/core';
-import { Navbar } from '@/src/app/_layouts';
+'use client';
 
-export default async function CardPage() {
-  // const card = await findCardAll();
+export default function HomePage() {
+  window.location.href = '/login';
   return (
-    <Flex direction="row" gap="md">
-      <Navbar />
-      <div>ログイン画面かな</div>
-    </Flex>
+    <>
+      <div>ログイン画面に飛ばす</div>
+    </>
   );
 }

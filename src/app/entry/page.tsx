@@ -1,12 +1,9 @@
 import { Flex } from '@mantine/core';
 import { getServerSession } from 'next-auth';
 import { Navbar } from '@/src/app/_layouts';
-import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
-import { GetCourtList } from '@/src/app/court/_components/GetCourtList';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 
-const CourtPage = async () => {
-  const getCourtList = await findGetCourtOverCurrentCourt({ publicFlg: true });
+const EntryPage = async () => {
   const session = await getServerSession(authOptions);
   if (!session) {
     return (
@@ -18,9 +15,9 @@ const CourtPage = async () => {
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <GetCourtList data={getCourtList} />
+      <div>エントリー状況が見れる画面を作成予定</div>
     </Flex>
   );
 };
 
-export default CourtPage;
+export default EntryPage;

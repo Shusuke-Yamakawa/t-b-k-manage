@@ -7,9 +7,9 @@ import { signOut } from 'next-auth/react';
 import classes from './Navbar.module.css';
 
 const data = [
-  { link: '/', label: 'login' },
   { link: '/court', label: 'court' },
   { link: '/entry', label: 'entry' },
+  { link: '/card', label: 'card' },
   { link: '/manage', label: 'manage' },
 ];
 
