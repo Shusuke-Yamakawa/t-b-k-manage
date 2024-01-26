@@ -26,16 +26,7 @@ export const GetCourtList: FC<Props> = ({ data }) => {
     <Table.Tr key={d.id}>
       <Table.Td>{`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}</Table.Td>
       <Table.Td>
-        <Select
-          data={[
-            '未入力',
-            '土日どちらも参加',
-            '土日どちらか参加',
-            '参加できそう',
-            '参加できなそう',
-            '不参加',
-          ]}
-        />
+        <Select data={['-', '◎', '◯', '△＋', '△', '☓']} />
       </Table.Td>
     </Table.Tr>
   ));
@@ -50,16 +41,16 @@ export const GetCourtList: FC<Props> = ({ data }) => {
         エントリー
       </Button>
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-      <HoverCard width={280} shadow="md">
+      <HoverCard width={200} shadow="md">
         <HoverCard.Target>
           <UnstyledButton>参加可否の詳細</UnstyledButton>
         </HoverCard.Target>
         <HoverCard.Dropdown>
-          <Text size="sm">◎土日どちらも参加</Text>
-          <Text size="sm">土日どちらか参加</Text>
-          <Text size="sm">参加できそう</Text>
-          <Text size="sm">参加できなそう</Text>
-          <Text size="sm">不参加</Text>
+          <Text size="sm">◎：土日どちらも参加</Text>
+          <Text size="sm">◯：土日どちらか参加</Text>
+          <Text size="sm">△＋：参加できそう</Text>
+          <Text size="sm">△ー：参加できなそう</Text>
+          <Text size="sm">☓：不参加</Text>
         </HoverCard.Dropdown>
       </HoverCard>
       <Table>
