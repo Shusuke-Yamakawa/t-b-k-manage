@@ -23,6 +23,7 @@
     "@mantine/hooks": "7.4.1",
     "@mantine/modals": "^7.4.1",
     "@mantine/notifications": "^7.4.1",
+    "@mantinex/mantine-logo": "^1.0.1",
     "@next/bundle-analyzer": "^14.1.0",
     "@prisma/client": "^5.7.0",
     "@tabler/icons-react": "^2.20.0",

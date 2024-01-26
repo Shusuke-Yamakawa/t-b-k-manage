@@ -2,9 +2,25 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from '@mantine/core';
+import { Tooltip, UnstyledButton, rem } from '@mantine/core';
 import { signOut } from 'next-auth/react';
+import { IconHome2, IconLogout } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
+
+type NavbarLinkProps = {
+  icon: typeof IconHome2;
+  label: string;
+  active?: boolean;
+  onClick?(): void;
+};
+
+const NavbarLink = ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => (
+  <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+    <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
+      <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+    </UnstyledButton>
+  </Tooltip>
+);
 
 const data = [
   { link: '/court', label: 'court' },
@@ -28,18 +44,15 @@ export const Navbar = () => {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{links}</div>
-      <Button
-        color="gray"
-        className={classes.logout}
-        type="button"
+      <NavbarLink
+        icon={IconLogout}
+        label="Logout"
         onClick={async () => {
           console.log('logout');
           await signOut();
           window.location.href = '/login';
         }}
-      >
-        ログアウト
-      </Button>
+      />
     </nav>
   );
 };

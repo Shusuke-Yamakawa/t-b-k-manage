@@ -1,8 +1,6 @@
-/* eslint-disable no-restricted-syntax */
-
 'use client';
 
-import { Button, Flex, LoadingOverlay, Select, Table, TextInput } from '@mantine/core';
+import { Button, Flex, LoadingOverlay, Select, Table } from '@mantine/core';
 import { FC } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { GetCourt } from '@/src/app/_lib/db/getCourt';
@@ -24,10 +22,15 @@ export const GetCourtList: FC<Props> = ({ data }) => {
       <Table.Td>{d.court}</Table.Td>
       <Table.Td>{d.card.user_nm}</Table.Td>
       <Table.Td>
-        <Select data={['参加できる', '参加できそう', '参加できなそう', '不参加']} />
-      </Table.Td>
-      <Table.Td>
-        <TextInput placeholder="コメント書けます" />
+        <Select
+          data={[
+            '土日どちらも参加',
+            '土日どちらか参加',
+            '参加できそう',
+            '参加できなそう',
+            '不参加',
+          ]}
+        />
       </Table.Td>
     </Table.Tr>
   ));
@@ -52,7 +55,6 @@ export const GetCourtList: FC<Props> = ({ data }) => {
             <Table.Th>コート名</Table.Th>
             <Table.Th>カード名義</Table.Th>
             <Table.Th>参加可否</Table.Th>
-            <Table.Th>備考</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
