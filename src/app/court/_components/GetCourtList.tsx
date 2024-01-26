@@ -1,6 +1,15 @@
 'use client';
 
-import { Button, Flex, LoadingOverlay, Select, Table } from '@mantine/core';
+import {
+  Button,
+  Flex,
+  LoadingOverlay,
+  Select,
+  Table,
+  UnstyledButton,
+  Text,
+  HoverCard,
+} from '@mantine/core';
 import { FC } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { GetCourt } from '@/src/app/_lib/db/getCourt';
@@ -19,6 +28,7 @@ export const GetCourtList: FC<Props> = ({ data }) => {
       <Table.Td>
         <Select
           data={[
+            '未入力',
             '土日どちらも参加',
             '土日どちらか参加',
             '参加できそう',
@@ -40,10 +50,23 @@ export const GetCourtList: FC<Props> = ({ data }) => {
         エントリー
       </Button>
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+      <HoverCard width={280} shadow="md">
+        <HoverCard.Target>
+          <UnstyledButton>参加可否の詳細</UnstyledButton>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
+          <Text size="sm">◎土日どちらも参加</Text>
+          <Text size="sm">土日どちらか参加</Text>
+          <Text size="sm">参加できそう</Text>
+          <Text size="sm">参加できなそう</Text>
+          <Text size="sm">不参加</Text>
+        </HoverCard.Dropdown>
+      </HoverCard>
       <Table>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>情報</Table.Th>
+
             <Table.Th>参加可否</Table.Th>
           </Table.Tr>
         </Table.Thead>
