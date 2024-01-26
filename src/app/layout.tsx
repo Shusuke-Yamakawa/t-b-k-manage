@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <MantineProvider theme={theme}>
           <ModalsProvider>
-            <Notifications position="top-center" zIndex={1000} autoClose={false} />
+            <Notifications position="top-center" autoClose={3000} />
             {children}
           </ModalsProvider>
         </MantineProvider>

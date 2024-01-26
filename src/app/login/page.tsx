@@ -31,7 +31,8 @@ export default function LoginPage() {
           onSubmit={form.onSubmit(async (values) => {
             const result = await signIn('user', { redirect: false, ...values });
             if (result?.error) {
-              console.log('ログイン失敗: ', result?.error);
+              form.setFieldError('cardId', 'IDかパスワードが誤っています');
+              form.setFieldError('password', 'IDかパスワードが誤っています');
             } else {
               // ログイン成功時トップページへリダイレクト
               window.location.href = '/court';
