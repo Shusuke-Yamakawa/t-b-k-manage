@@ -46,11 +46,11 @@ export const GetCourtList: FC<Props> = ({ data }) => {
           <UnstyledButton>参加可否の詳細</UnstyledButton>
         </HoverCard.Target>
         <HoverCard.Dropdown>
-          <Text size="sm">◎：土日どちらも参加</Text>
-          <Text size="sm">◯：土日どちらか参加</Text>
-          <Text size="sm">△＋：参加できそう</Text>
-          <Text size="sm">△ー：参加できなそう</Text>
-          <Text size="sm">☓：不参加</Text>
+          <Text size="sm">◎ ：土日どちらも参加</Text>
+          <Text size="sm">◯ ：土日どちらか参加</Text>
+          <Text size="sm">△+：参加できそう</Text>
+          <Text size="sm">△-：参加できなそう</Text>
+          <Text size="sm">☓ ：不参加</Text>
         </HoverCard.Dropdown>
       </HoverCard>
       <Table>
