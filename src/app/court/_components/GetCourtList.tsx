@@ -15,12 +15,7 @@ export const GetCourtList: FC<Props> = ({ data }) => {
 
   const rows = data.map((d) => (
     <Table.Tr key={d.id}>
-      <Table.Td>{d.month}</Table.Td>
-      <Table.Td>{d.day}</Table.Td>
-      <Table.Td>{d.from_time}</Table.Td>
-      <Table.Td>{d.to_time}</Table.Td>
-      <Table.Td>{d.court}</Table.Td>
-      <Table.Td>{d.card.user_nm}</Table.Td>
+      <Table.Td>{`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}</Table.Td>
       <Table.Td>
         <Select
           data={[
@@ -48,12 +43,7 @@ export const GetCourtList: FC<Props> = ({ data }) => {
       <Table>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>月</Table.Th>
-            <Table.Th>日付</Table.Th>
-            <Table.Th>開始時間</Table.Th>
-            <Table.Th>終了時間</Table.Th>
-            <Table.Th>コート名</Table.Th>
-            <Table.Th>カード名義</Table.Th>
+            <Table.Th>情報</Table.Th>
             <Table.Th>参加可否</Table.Th>
           </Table.Tr>
         </Table.Thead>
