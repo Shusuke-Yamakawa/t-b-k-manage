@@ -9,9 +9,10 @@ import axios from 'axios';
 import { GetCourt } from '@/src/app/_lib/db/getCourt';
 import { Card } from '@/src/app/_lib/db/card';
 import { API_URL } from '@/src/app/_consts/environment.const';
+import { Id } from '@/src/app/_types/type';
 
 type Props = {
-  data: ({ id: number } & GetCourt & { card: Card })[];
+  data: (Id & GetCourt & { card: Card })[];
 };
 
 export const ManageCourtList: FC<Props> = ({ data }) => {

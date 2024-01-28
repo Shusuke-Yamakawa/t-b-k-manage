@@ -35,7 +35,9 @@ export const authOptions = {
       if (user) {
         token.user = user;
         const u = user as any;
+        token.card_id = u.card_id;
         token.user_nm = u.user_nm;
+        token.nick_nm = u.nick_nm;
         token.admin_flg = u.admin_flg;
       }
 
@@ -43,7 +45,9 @@ export const authOptions = {
     },
     session: ({ session, token }: any) => {
       if (token) {
+        session.user.card_id = token.card_id;
         session.user.user_nm = token.user_nm;
+        session.user.nick_nm = token.nick_nm;
         session.user.admin_flg = token.admin_flg;
       }
       return session;

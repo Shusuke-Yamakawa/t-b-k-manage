@@ -115,7 +115,7 @@ export const findGetCourtOverCurrentCourt = async (options?: {
 
   return prisma.getCourt.findMany({
     where: whereConditions,
-    include: { card: true },
+    include: { card: true, entries: true },
     orderBy: [
       { year: 'asc' },
       { month: 'asc' },
