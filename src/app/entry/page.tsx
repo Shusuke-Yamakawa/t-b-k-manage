@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import { Navbar } from '@/src/app/_layouts';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 
+export const dynamic = 'force-dynamic';
+
 const EntryPage = async () => {
   const session = await getServerSession(authOptions);
   if (!session) {
