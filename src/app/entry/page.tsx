@@ -10,7 +10,7 @@ const EntryPage = async () => {
   if (!session) {
     return (
       <div>
-        <p>ログインしてから見てね</p>
+        <a href="/login">ログイン</a>してから見てね
       </div>
     );
   }

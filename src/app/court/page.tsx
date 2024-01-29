@@ -45,7 +45,9 @@ const CourtPage = async () => {
   if (!session) {
     return (
       <div>
-        <p>ログインしてから見てね</p>
+        <p>
+          <a href="/login">ログイン</a>してから見てね
+        </p>
       </div>
     );
   }

@@ -11,7 +11,7 @@ export default async function CardPage() {
   if (session && !session.user.admin_flg) {
     return (
       <div>
-        <p>カードは機密だよ</p>
+        <p>カード見ちゃダメ絶対</p>
       </div>
     );
   }
