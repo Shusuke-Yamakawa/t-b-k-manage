@@ -2,6 +2,7 @@
 
 import { Flex, Table } from '@mantine/core';
 import { FC } from 'react';
+import Link from 'next/link';
 import { EntryData } from '@/src/app/court/_types/court.type';
 
 type Props = {
@@ -29,7 +30,11 @@ export const EntryList: FC<Props> = ({ data }) => {
     const guestEntryNumber = d.guests.length;
     return (
       <Table.Tr key={d.id}>
-        <Table.Td>{`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}</Table.Td>
+        <Table.Td>
+          <Link href={`/entry/${d.id}`}>
+            {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}
+          </Link>
+        </Table.Td>
         <Table.Td>{bothDaysEntryNumber + guestEntryNumber}</Table.Td>
         <Table.Td>{eitherDayEntryNumber}</Table.Td>
         <Table.Td>{likelyEntryNumber}</Table.Td>
@@ -40,10 +45,7 @@ export const EntryList: FC<Props> = ({ data }) => {
   });
   return (
     <Flex direction="column" gap="md" m="lg">
-      {/* <Button type="submit" variant="light">
-        エントリー
-      </Button> */}
-      <Table stickyHeader stickyHeaderOffset={60}>
+      <Table stickyHeader stickyHeaderOffset={10}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>情報</Table.Th>

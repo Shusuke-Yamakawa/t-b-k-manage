@@ -49,6 +49,11 @@ export const findGetCourtById = async (id: number) =>
     where: {
       id,
     },
+    include: {
+      card: true,
+      entries: true,
+      guests: true,
+    },
   });
 
 /**
