@@ -21,7 +21,7 @@ const EntryPage = async () => {
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <EntryList data={getCourtList as EntryData} />
+      <EntryList data={getCourtList as EntryData[]} />
     </Flex>
   );
 };

@@ -20,7 +20,7 @@ import {
 } from '@/src/app/court/_utils/court.util';
 
 type Props = {
-  data: EntryData;
+  data: EntryData[];
   entry: (fd: EntryForm) => Promise<void>;
   loginCardId: string;
 };

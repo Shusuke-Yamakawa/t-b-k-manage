@@ -55,7 +55,7 @@ const CourtPage = async () => {
     <Flex direction="row" gap="md">
       <Navbar />
       <GetCourtList
-        data={getCourtList as EntryData}
+        data={getCourtList as EntryData[]}
         entry={entry}
         loginCardId={session.user.card_id}
       />

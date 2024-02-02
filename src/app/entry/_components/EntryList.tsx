@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { EntryData } from '@/src/app/court/_types/court.type';
 
 type Props = {
-  data: EntryData;
+  data: EntryData[];
 };
 
 // const Loading = () => {
