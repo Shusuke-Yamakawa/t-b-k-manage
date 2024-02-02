@@ -1,4 +1,6 @@
-export const convertPossibilityToDB = (possibility: string): string => {
+import { PossibilityDb, PossibilityDisplay } from '@/src/app/court/_types/court.type';
+
+export const convertPossibilityToDB = (possibility: PossibilityDisplay): PossibilityDb => {
   switch (possibility) {
     case '◎':
       return 'BothDays';
@@ -17,7 +19,7 @@ export const convertPossibilityToDB = (possibility: string): string => {
   }
 };
 
-export const convertPossibilityToDisplay = (possibility: string): string => {
+export const convertPossibilityToDisplay = (possibility: PossibilityDb): PossibilityDisplay => {
   switch (possibility) {
     case 'BothDays':
       return '◎';

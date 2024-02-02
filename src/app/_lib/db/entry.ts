@@ -1,9 +1,10 @@
 import { prisma } from '@/src/app/_lib/prisma';
+import { PossibilityDb } from '@/src/app/court/_types/court.type';
 
 export type Entry = {
   card_id: string;
   court_id: number;
-  possibility: string;
+  possibility: PossibilityDb;
   comment: string;
 };
 
