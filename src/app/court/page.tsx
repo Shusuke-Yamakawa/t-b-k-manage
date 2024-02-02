@@ -5,7 +5,7 @@ import { Navbar } from '@/src/app/_layouts';
 import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
 import { GetCourtList } from '@/src/app/court/_components/GetCourtList';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
-import { EntryForm } from '@/src/app/court/_types/court.type';
+import { EntryData, EntryForm } from '@/src/app/court/_types/court.type';
 import { createEntry, updateEntry } from '@/src/app/_lib/db/entry';
 
 export const dynamic = 'force-dynamic';
@@ -54,7 +54,11 @@ const CourtPage = async () => {
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <GetCourtList data={getCourtList} entry={entry} loginCardId={session.user.card_id} />
+      <GetCourtList
+        data={getCourtList as EntryData}
+        entry={entry}
+        loginCardId={session.user.card_id}
+      />
     </Flex>
   );
 };

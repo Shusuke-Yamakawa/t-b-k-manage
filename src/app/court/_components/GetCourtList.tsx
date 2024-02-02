@@ -91,7 +91,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
             <Text size="sm">☓ ：不参加</Text>
           </HoverCard.Dropdown>
         </HoverCard>
-        <Table>
+        <Table stickyHeader stickyHeaderOffset={60}>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>情報</Table.Th>

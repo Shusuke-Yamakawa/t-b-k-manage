@@ -14,7 +14,7 @@ export type EntryData = (Id &
 export type EntryForm = (Id &
   GetCourt & { card: Card } & {
     entries: (Id & Entry)[];
-  } & { possibility: string })[];
+  } & { possibility: PossibilityDb })[];
 
 export type PossibilityDb = 'BothDays' | 'EitherDay' | 'Likely' | 'Unlikely' | 'NotAttending' | '';
 export type PossibilityDisplay = '◎' | '◯' | '△+' | '△-' | '☓' | '-';

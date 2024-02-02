@@ -43,7 +43,7 @@ export const EntryList: FC<Props> = ({ data }) => {
       {/* <Button type="submit" variant="light">
         エントリー
       </Button> */}
-      <Table>
+      <Table stickyHeader stickyHeaderOffset={60}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>情報</Table.Th>

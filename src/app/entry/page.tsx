@@ -4,6 +4,7 @@ import { Navbar } from '@/src/app/_layouts';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
 import { EntryList } from '@/src/app/entry/_components/EntryList';
+import { EntryData } from '@/src/app/court/_types/court.type';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,19 +18,10 @@ const EntryPage = async () => {
     );
   }
   const getCourtList = await findGetCourtOverCurrentCourt({ publicFlg: true });
-  getCourtList.forEach((court) => {
-    court.entries.forEach((entry) => {
-      console.log(entry);
-    });
-    court.guests.forEach((guest) => {
-      console.log(guest);
-    });
-  });
-
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <EntryList data={getCourtList} />
+      <EntryList data={getCourtList as EntryData} />
     </Flex>
   );
 };
