@@ -51,7 +51,11 @@ export const findGetCourtById = async (id: number) =>
     },
     include: {
       card: true,
-      entries: true,
+      entries: {
+        include: {
+          card: true,
+        },
+      },
       guests: true,
     },
   });
