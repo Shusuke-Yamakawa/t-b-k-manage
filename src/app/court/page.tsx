@@ -17,7 +17,7 @@ const entry = async (formData: EntryForm) => {
 
   for (const d of formData) {
     const loginCardId = session.user.card_id;
-    const isEntryExists = d.entries.some((e) => e.card_id === loginCardId);
+    const isEntryExists = d.entries.some((e) => d.id === e.court_id && e.card_id === loginCardId);
     if (isEntryExists) {
       console.log('アップデート');
       await updateEntry({
