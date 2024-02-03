@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Flex } from '@mantine/core';
 import { getServerSession } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 import { Navbar } from '@/src/app/_layouts';
 import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
 import { GetCourtList } from '@/src/app/court/_components/GetCourtList';
@@ -41,6 +42,7 @@ const entry = async (formData: EntryForm) => {
       continue;
     }
   }
+  revalidatePath('/court/');
 };
 
 const CourtPage = async () => {

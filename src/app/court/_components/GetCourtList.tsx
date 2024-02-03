@@ -53,7 +53,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
       };
     },
   });
-  const [visible, { toggle }] = useDisclosure();
+  const [visible, { toggle, close }] = useDisclosure();
 
   const rows = data.map((d, index) => (
     <Table.Tr key={d.id}>
@@ -73,7 +73,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
       onSubmit={form.onSubmit(async (values) => {
         toggle();
         await entry(values.courts);
-        window.location.reload();
+        close();
       })}
     >
       <Flex direction="column" gap="md" m="lg">
