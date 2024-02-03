@@ -1,5 +1,6 @@
 import { Flex } from '@mantine/core';
 import { getServerSession } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 import { Navbar } from '@/src/app/_layouts';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 import { findGetCourtById } from '@/src/app/_lib/db/getCourt';
@@ -13,11 +14,8 @@ const guestAdd = async (formData: { guestName: string; courtId: number }) => {
   'use server';
 
   const { guestName, courtId } = formData;
-
-  console.log('formData: ', formData);
   await createGuest({ guest_nm: guestName, court_id: courtId });
-
-  // const session = await getServerSession(authOptions);
+  revalidatePath('/entry/[id]', 'page');
 };
 
 const EntryDetailPage = async ({ params }: { params: { id: string } }) => {

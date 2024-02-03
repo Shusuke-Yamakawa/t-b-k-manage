@@ -56,7 +56,7 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
     );
   });
   const formRef = createRef<HTMLFormElement>();
-  const [visible, { toggle }] = useDisclosure();
+  const [visible, { toggle, close }] = useDisclosure();
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -72,7 +72,7 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
           // formRef.current.submit();
           // TODO loading
           await guestAdd(values);
-          window.location.reload();
+          close();
         })}
         ref={formRef}
         // method="post"
@@ -84,7 +84,7 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
             placeholder="ゲスト登録"
             {...form.getInputProps('guestName')}
           />
-          <Button type="submit" size="xs">
+          <Button style={{ padding: '8px' }} type="submit" size="xs">
             追加
           </Button>
         </Flex>
