@@ -45,7 +45,7 @@ export const EntryList: FC<Props> = ({ data }) => {
   });
   return (
     <Flex direction="column" gap="md" m="lg">
-      <Table stickyHeader stickyHeaderOffset={10}>
+      <Table>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>情報</Table.Th>

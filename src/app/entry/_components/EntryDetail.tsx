@@ -90,7 +90,7 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
         </Flex>
       </form>
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-      <Table stickyHeader stickyHeaderOffset={10}>
+      <Table>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>参加意欲</Table.Th>

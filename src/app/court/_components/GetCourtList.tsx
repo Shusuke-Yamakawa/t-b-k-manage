@@ -57,8 +57,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
   const [visible, { toggle, close }] = useDisclosure();
 
   const rows = data.map((d, index) => {
-    const date = dayjs(`${d.year}-${d.month}-${d.day}`);
-    const dayOfWeek = date.day();
+    const dayOfWeek = dayjs(`${d.year}-${d.month}-${d.day}`).day();
     const isSaturday = dayOfWeek === 6;
     return (
       <Table.Tr key={d.id}>
@@ -99,7 +98,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
             <Text size="sm">☓ ：不参加</Text>
           </HoverCard.Dropdown>
         </HoverCard>
-        <Table stickyHeader stickyHeaderOffset={60}>
+        <Table>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>情報</Table.Th>
