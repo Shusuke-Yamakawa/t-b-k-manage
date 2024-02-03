@@ -78,13 +78,15 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
         // method="post"
         // action={guestAdd}
       >
-        <Flex direction="row" gap="md">
+        <Flex direction="row" gap="xs">
           <TextInput
             name="guestName"
             placeholder="ゲスト登録"
             {...form.getInputProps('guestName')}
           />
-          <Button type="submit">追加</Button>
+          <Button type="submit" size="xs">
+            追加
+          </Button>
         </Flex>
       </form>
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
