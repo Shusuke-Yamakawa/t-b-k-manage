@@ -15,16 +15,16 @@ import { z } from 'zod';
 import { signIn } from 'next-auth/react';
 import { useDisclosure } from '@mantine/hooks';
 
-export default function LoginPage() {
-  const schema = z.object({
-    cardId: z.string().min(8, { message: 'IDは8文字です' }).max(8, { message: 'IDは8文字です' }),
-    password: z
-      .string()
-      .trim()
-      .min(8, { message: 'パスワードは8文字です' })
-      .max(8, { message: 'パスワードは8文字です' }),
-  });
+const schema = z.object({
+  cardId: z.string().min(8, { message: 'IDは8文字です' }).max(8, { message: 'IDは8文字です' }),
+  password: z
+    .string()
+    .trim()
+    .min(8, { message: 'パスワードは8文字です' })
+    .max(8, { message: 'パスワードは8文字です' }),
+});
 
+export default function LoginPage() {
   const form = useForm({
     initialValues: {
       cardId: '',
