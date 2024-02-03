@@ -32,7 +32,7 @@ export const EntryList: FC<Props> = ({ data }) => {
       <Table.Tr key={d.id}>
         <Table.Td>
           <Link href={`/entry/${d.id}`}>
-            {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}
+            {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}
           </Link>
         </Table.Td>
         <Table.Td>{bothDaysEntryNumber + guestEntryNumber}</Table.Td>

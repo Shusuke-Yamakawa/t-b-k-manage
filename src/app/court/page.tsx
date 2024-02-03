@@ -17,16 +17,20 @@ const entry = async (formData: EntryForm) => {
 
   for (const d of formData) {
     const loginCardId = session.user.card_id;
+    const updateTargetEntry = d.entries.find(
+      (e) => d.id === e.court_id && e.card_id === loginCardId && e.possibility !== d.possibility
+    );
     const isEntryExists = d.entries.some((e) => d.id === e.court_id && e.card_id === loginCardId);
-    if (isEntryExists) {
-      console.log('アップデート');
+
+    if (updateTargetEntry) {
+      console.log('更新');
       await updateEntry({
-        id: d.entries[0].id,
+        id: updateTargetEntry.id,
         possibility: d.possibility,
       });
       continue;
     }
-    if (d.possibility) {
+    if (!isEntryExists && d.possibility) {
       console.log('新規登録');
       await createEntry({
         card_id: loginCardId,

@@ -57,7 +57,9 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
 
   const rows = data.map((d, index) => (
     <Table.Tr key={d.id}>
-      <Table.Td>{`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court}`}</Table.Td>
+      <Table.Td>
+        {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}
+      </Table.Td>
       <Table.Td>
         <Select
           data={['-', '◎', '◯', '△+', '△-', '☓']}
