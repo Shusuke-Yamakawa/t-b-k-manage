@@ -13,6 +13,7 @@ import {
 import { FC } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import dayjs from 'dayjs';
 import { EntryData, EntryForm } from '@/src/app/court/_types/court.type';
 import {
   convertPossibilityToDB,
@@ -55,19 +56,24 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
   });
   const [visible, { toggle, close }] = useDisclosure();
 
-  const rows = data.map((d, index) => (
-    <Table.Tr key={d.id}>
-      <Table.Td>
-        {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}
-      </Table.Td>
-      <Table.Td>
-        <Select
-          data={['-', '◎', '◯', '△+', '△-', '☓']}
-          {...form.getInputProps(`courts.${index}.possibility`)}
-        />
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows = data.map((d, index) => {
+    const date = dayjs(`${d.year}-${d.month}-${d.day}`);
+    const dayOfWeek = date.day();
+    const isSaturday = dayOfWeek === 6;
+    return (
+      <Table.Tr key={d.id}>
+        <Table.Td bg={isSaturday ? 'var(--mantine-color-blue-light)' : undefined}>
+          {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}
+        </Table.Td>
+        <Table.Td>
+          <Select
+            data={['-', '◎', '◯', '△+', '△-', '☓']}
+            {...form.getInputProps(`courts.${index}.possibility`)}
+          />
+        </Table.Td>
+      </Table.Tr>
+    );
+  });
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
