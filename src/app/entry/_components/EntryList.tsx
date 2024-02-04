@@ -28,8 +28,9 @@ export const EntryList: FC<Props> = ({ data }) => {
       (e) => e.possibility === 'NotAttending'
     ).length;
     const guestEntryNumber = d.guests.length;
+    const isHold = d.hold_flg;
     return (
-      <Table.Tr key={d.id}>
+      <Table.Tr key={d.id} bg={isHold ? 'var(--mantine-color-red-light)' : undefined}>
         <Table.Td>
           <Link href={`/entry/${d.id}`}>
             {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}

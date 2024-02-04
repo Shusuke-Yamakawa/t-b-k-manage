@@ -3,7 +3,7 @@ import qs from 'qs';
 
 export const notify_line = async (
   msg: string,
-  token = '0qWBwrgX4NNRwvW437ts2PMwJqTccdke934hBetGAqh'
+  token = 'QUGBKHPEM8JtPKI1mTMrkw8Cxk6KUBogr2poZhEQeva'
 ) => {
   const BASE_URL = 'https://notify-api.line.me';
   const PATH = '/api/notify';
@@ -16,7 +16,7 @@ export const notify_line = async (
       Authorization: `Bearer ${token}`,
     },
     data: qs.stringify({
-      message: `\n${msg}`,
+      message: `${msg}\nM1 社用`,
     }),
   };
   await axios.request(config);

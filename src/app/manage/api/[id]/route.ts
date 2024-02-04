@@ -1,4 +1,6 @@
 import { findGetCourtById, updatePublicAndHoldFlg } from '@/src/app/_lib/db/getCourt';
+import { notify_line } from '@/src/app/_utils/line';
+import { getWeek } from '@/src/app/court/_utils/date.util';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,9 +13,17 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const { publicFlg, holdFlg } = await req.json();
-  console.log('holdFlg: ', holdFlg);
-  console.log('publicFlg: ', publicFlg);
   try {
+    const court = await findGetCourtById(Number(params.id));
+    const { year } = court!;
+    const { month } = court!;
+    const { day } = court!;
+    const week = getWeek({ year, month, day });
+    if (!court!.hold_flg && holdFlg) {
+      const msg = `${month}/${day}(${week})${court!.from_time}-${court!.to_time}
+${court!.court.slice(0, -2)}`;
+      await notify_line(msg);
+    }
     await updatePublicAndHoldFlg({
       id: Number(params.id),
       publicFlg,
