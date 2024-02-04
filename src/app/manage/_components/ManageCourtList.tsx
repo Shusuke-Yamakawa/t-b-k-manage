@@ -16,15 +16,38 @@ type Props = {
 };
 
 export const ManageCourtList: FC<Props> = ({ data }) => {
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedPublic, setSelectedPublic] = useState<number[]>([]);
+  const [selectedHold, setSelectedHold] = useState<number[]>([]);
+
   const [visible, { toggle }] = useDisclosure(false);
   const publicCourt = async () => {
-    for (const id of selectedRows) {
+    for (const id of selectedPublic) {
       try {
         const getCourt = await axios.get(`${API_URL}manage/api/${id}`);
         const court = getCourt.data;
         const updPublicFlg = !court.public_flg;
-        await axios.put(`${API_URL}manage/api/${id}`, { publicFlg: updPublicFlg });
+        await axios.put(`${API_URL}manage/api/${id}`, {
+          publicFlg: updPublicFlg,
+          holdFlg: court.hold_flg,
+        });
+      } catch (error) {
+        console.error(`Failed to update court with ID: ${id}`);
+        break;
+      }
+    }
+    // リフェッチする
+    window.location.reload();
+  };
+  const holdCourt = async () => {
+    for (const id of selectedHold) {
+      try {
+        const getCourt = await axios.get(`${API_URL}manage/api/${id}`);
+        const court = getCourt.data;
+        const updHoldFlg = !court.hold_flg;
+        await axios.put(`${API_URL}manage/api/${id}`, {
+          publicFlg: court.public_flg,
+          holdFlg: updHoldFlg,
+        });
       } catch (error) {
         console.error(`Failed to update court with ID: ${id}`);
         break;
@@ -37,17 +60,34 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
   const rows = data.map((d) => (
     <Table.Tr
       key={d.id}
-      bg={selectedRows.includes(d.id) ? 'var(--mantine-color-blue-light)' : undefined}
+      bg={
+        selectedPublic.includes(d.id) || selectedHold.includes(d.id)
+          ? 'var(--mantine-color-blue-light)'
+          : undefined
+      }
     >
       <Table.Td>
         <Checkbox
           aria-label="Select row"
-          checked={selectedRows.includes(d.id)}
+          checked={selectedPublic.includes(d.id)}
           onChange={(event) =>
-            setSelectedRows(
+            setSelectedPublic(
               event.currentTarget.checked
-                ? [...selectedRows, d.id]
-                : selectedRows.filter((position) => position !== d.id)
+                ? [...selectedPublic, d.id]
+                : selectedPublic.filter((position) => position !== d.id)
+            )
+          }
+        />
+      </Table.Td>
+      <Table.Td>
+        <Checkbox
+          aria-label="Select row"
+          checked={selectedHold.includes(d.id)}
+          onChange={(event) =>
+            setSelectedHold(
+              event.currentTarget.checked
+                ? [...selectedHold, d.id]
+                : selectedHold.filter((position) => position !== d.id)
             )
           }
         />
@@ -59,6 +99,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       <Table.Td>{d.court}</Table.Td>
       <Table.Td>{d.card.user_nm}</Table.Td>
       <Table.Td>{d.public_flg ? '公開' : '非公開'}</Table.Td>
+      <Table.Td>{d.hold_flg ? '開催' : '不開催'}</Table.Td>
     </Table.Tr>
   ));
   return (
@@ -72,11 +113,21 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       >
         公開
       </Button>
+      <Button
+        onClick={async () => {
+          toggle();
+          await holdCourt();
+        }}
+        variant="light"
+      >
+        開催
+      </Button>
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
       <Table>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>公開</Table.Th>
+            <Table.Th>開催</Table.Th>
             <Table.Th>月</Table.Th>
             <Table.Th>日付</Table.Th>
             <Table.Th>開始時間</Table.Th>
@@ -84,6 +135,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
             <Table.Th>コート名</Table.Th>
             <Table.Th>カード名義</Table.Th>
             <Table.Th>公開設定</Table.Th>
+            <Table.Th>開催設定</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

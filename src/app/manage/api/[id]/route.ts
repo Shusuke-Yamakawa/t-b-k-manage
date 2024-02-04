@@ -1,4 +1,4 @@
-import { findGetCourtById, updatePublicFlg } from '@/src/app/_lib/db/getCourt';
+import { findGetCourtById, updatePublicAndHoldFlg } from '@/src/app/_lib/db/getCourt';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,9 +10,15 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const { publicFlg } = await req.json();
+  const { publicFlg, holdFlg } = await req.json();
+  console.log('holdFlg: ', holdFlg);
+  console.log('publicFlg: ', publicFlg);
   try {
-    await updatePublicFlg(Number(params.id), publicFlg);
+    await updatePublicAndHoldFlg({
+      id: Number(params.id),
+      publicFlg,
+      holdFlg,
+    });
     return new Response(JSON.stringify({ message: 'ok' }), {
       headers: { 'Content-Type': 'application/json' },
     });
