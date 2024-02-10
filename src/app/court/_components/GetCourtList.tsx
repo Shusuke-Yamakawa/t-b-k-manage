@@ -14,6 +14,7 @@ import { FC } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import dayjs from 'dayjs';
+import { notifications } from '@mantine/notifications';
 import { EntryData, EntryForm } from '@/src/app/court/_types/court.type';
 import {
   convertPossibilityToDB,
@@ -77,8 +78,21 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
     <form
       onSubmit={form.onSubmit(async (values) => {
         toggle();
-        await entry(values.courts);
-        close();
+        try {
+          await entry(values.courts);
+          close();
+          notifications.show({
+            color: 'blue',
+            title: '完了',
+            message: 'エントリーが完了しました',
+          });
+        } catch (e) {
+          notifications.show({
+            color: 'red',
+            title: 'エラー',
+            message: 'エラーが発生しました',
+          });
+        }
       })}
     >
       <Flex direction="column" gap="md" m="lg">
