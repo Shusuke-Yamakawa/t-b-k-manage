@@ -9,6 +9,7 @@ import {
   UnstyledButton,
   Text,
   HoverCard,
+  MantineStyleProp,
 } from '@mantine/core';
 import { FC } from 'react';
 import { useForm } from '@mantine/form';
@@ -74,6 +75,14 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
       </Table.Tr>
     );
   });
+
+  const notificationsStyle = {
+    width: '300px',
+    position: 'fixed',
+    top: '16px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+  } as const satisfies MantineStyleProp;
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
@@ -83,14 +92,16 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
           close();
           notifications.show({
             color: 'blue',
-            title: '完了',
+            title: '成功',
             message: 'エントリーが完了しました',
+            style: notificationsStyle,
           });
         } catch (e) {
           notifications.show({
             color: 'red',
             title: 'エラー',
             message: 'エラーが発生しました',
+            style: notificationsStyle,
           });
         }
       })}
