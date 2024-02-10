@@ -168,6 +168,7 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       >
         <Stack gap="md">
           <TextInput
+            label="コメント"
             placeholder="entryしてからコメントしてね"
             {...formComment.getInputProps('comment')}
           />
