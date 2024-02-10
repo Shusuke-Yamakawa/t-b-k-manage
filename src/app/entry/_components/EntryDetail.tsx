@@ -1,6 +1,8 @@
+/* eslint-disable no-irregular-whitespace */
+
 'use client';
 
-import { Button, Flex, LoadingOverlay, Table, Text, TextInput, Title } from '@mantine/core';
+import { Button, Flex, LoadingOverlay, Stack, Table, Text, TextInput, Title } from '@mantine/core';
 import { FC, Fragment, createRef } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -67,7 +69,6 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) =
     acc[name] = (acc[name] || 0) + 1;
     return acc;
   }, {} as { [key: string]: number });
-  const formattedNames = Object.entries(nameCounts).map(([name, count]) => `${name} ${count}`);
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -76,12 +77,14 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) =
           sameScheduleCourts.length
         }面`}
       </Title>
-      <Text>受付名義</Text>
-      {formattedNames.map((name, index) => (
-        <Fragment key={index}>
-          <Text>{name}</Text>
-        </Fragment>
-      ))}
+      <Stack gap="xs">
+        <Text fw={500}>受付名義</Text>
+        {Object.entries(nameCounts).map(([name, count], index) => (
+          <Text key={index} pl="sm">
+            　{name} {count}
+          </Text>
+        ))}
+      </Stack>
       <form
         onSubmit={form.onSubmit(async (values, event) => {
           toggle();
