@@ -146,7 +146,18 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
           </Button>
         </Flex>
       </form>
-      <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+      <LoadingOverlay
+        styles={{
+          overlay: {
+            position: 'fixed', // 画面全体を覆うように固定
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+          },
+        }}
+        visible={visible}
+      />
       <Table>
         <Table.Thead>
           <Table.Tr>
