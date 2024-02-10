@@ -155,3 +155,32 @@ export const updatePublicAndHoldFlg = async ({
       hold_flg: holdFlg,
     },
   });
+
+export const findGetCourtSameSchedule = async ({
+  year,
+  month,
+  day,
+  from_time,
+  to_time,
+  court,
+}: {
+  year: number;
+  month: number;
+  day: number;
+  from_time: number;
+  to_time: number;
+  court: string;
+}) =>
+  prisma.getCourt.findMany({
+    where: {
+      year,
+      month,
+      day,
+      from_time,
+      to_time,
+      court,
+    },
+    include: {
+      card: true,
+    },
+  });

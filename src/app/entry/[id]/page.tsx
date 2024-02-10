@@ -3,9 +3,9 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { Navbar } from '@/src/app/_layouts';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
-import { findGetCourtById } from '@/src/app/_lib/db/getCourt';
+import { findGetCourtById, findGetCourtSameSchedule } from '@/src/app/_lib/db/getCourt';
 import { EntryDetail } from '@/src/app/entry/_components/EntryDetail';
-import { EntryDataWithCardAll } from '@/src/app/court/_types/court.type';
+import { EntryDataWithCard, EntryDataWithCardAll } from '@/src/app/court/_types/court.type';
 import { createGuest } from '@/src/app/_lib/db/guest';
 import { notify_line } from '@/src/app/_utils/line';
 
@@ -42,11 +42,20 @@ const EntryDetailPage = async ({ params }: { params: { id: string } }) => {
       </div>
     );
   }
-  const getCourt = await findGetCourtById(Number(params.id));
+  const getCourt = (await findGetCourtById(Number(params.id))) as EntryDataWithCardAll;
+  const sameScheduleCourts = (await findGetCourtSameSchedule({
+    year: getCourt.year,
+    month: getCourt.month,
+    day: getCourt.day,
+    from_time: getCourt.from_time,
+    to_time: getCourt.to_time,
+    court: getCourt.court,
+  })) as EntryDataWithCard[];
+
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <EntryDetail data={getCourt as EntryDataWithCardAll} guestAdd={guestAdd} />
+      <EntryDetail data={getCourt} sameScheduleCourts={sameScheduleCourts} guestAdd={guestAdd} />
     </Flex>
   );
 };

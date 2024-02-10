@@ -18,6 +18,8 @@ export type EntryDataWithCardAll = Id &
     guests: (Id & Guest)[];
   };
 
+export type EntryDataWithCard = Id & GetCourt & { card: Card };
+
 export type EntryForm = (Id &
   GetCourt & { card: Card } & {
     entries: (Id & Entry)[];

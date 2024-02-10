@@ -1,15 +1,20 @@
 'use client';
 
 import { Button, Flex, LoadingOverlay, Table, Text, TextInput, Title } from '@mantine/core';
-import { FC, createRef } from 'react';
+import { FC, Fragment, createRef } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { useDisclosure } from '@mantine/hooks';
-import { EntryDataWithCardAll, PossibilityDisplay } from '@/src/app/court/_types/court.type';
+import {
+  EntryDataWithCard,
+  EntryDataWithCardAll,
+  PossibilityDisplay,
+} from '@/src/app/court/_types/court.type';
 import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
 
 type Props = {
   data: EntryDataWithCardAll;
+  sameScheduleCourts: EntryDataWithCard[];
   guestAdd: (fd: any) => Promise<void>;
 };
 
@@ -26,7 +31,7 @@ const schema = z.object({
   guestName: z.string().trim().min(2, { message: '2文字以上入力して' }),
 });
 
-export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
+export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) => {
   const form = useForm({
     initialValues: {
       guestName: '',
@@ -57,13 +62,26 @@ export const EntryDetail: FC<Props> = ({ data, guestAdd }) => {
   });
   const formRef = createRef<HTMLFormElement>();
   const [visible, { toggle, close }] = useDisclosure();
+  const getCardUsers = sameScheduleCourts.map((c) => c.card.user_nm);
+  const nameCounts = getCardUsers.reduce((acc, name) => {
+    acc[name] = (acc[name] || 0) + 1;
+    return acc;
+  }, {} as { [key: string]: number });
+  const formattedNames = Object.entries(nameCounts).map(([name, count]) => `${name} ${count}`);
 
   return (
     <Flex direction="column" gap="md" m="lg">
       <Title order={3}>
-        {`${data.month}/${data.day} ${data.from_time}-${data.to_time}@${data.court.slice(0, -2)}`}
+        {`${data.month}/${data.day} ${data.from_time}-${data.to_time}@${data.court.slice(0, -2)} ${
+          sameScheduleCourts.length
+        }面`}
       </Title>
-      <Text>受付名義：{data.card.user_nm}</Text>
+      <Text>受付名義</Text>
+      {formattedNames.map((name, index) => (
+        <Fragment key={index}>
+          <Text>{name}</Text>
+        </Fragment>
+      ))}
       <form
         onSubmit={form.onSubmit(async (values, event) => {
           toggle();
