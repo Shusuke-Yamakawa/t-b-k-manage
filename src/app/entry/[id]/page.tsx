@@ -8,20 +8,39 @@ import { EntryDetail } from '@/src/app/entry/_components/EntryDetail';
 import { EntryDataWithCard, EntryDataWithCardAll } from '@/src/app/court/_types/court.type';
 import { createGuest } from '@/src/app/_lib/db/guest';
 import { notify_line } from '@/src/app/_utils/line';
+import { checkEntryExists, updateEntryComment } from '@/src/app/_lib/db/entry';
 
 export const dynamic = 'force-dynamic';
+
+const commentAdd = async (formData: { comment: string; courtId: number }) => {
+  'use server';
+
+  const { comment, courtId } = formData;
+  const session = await getServerSession(authOptions);
+  const isExists = await checkEntryExists({
+    card_id: session.user.card_id,
+    court_id: courtId,
+  });
+  if (!isExists) return;
+  await updateEntryComment({
+    comment,
+    card_id: session.user.card_id,
+    court_id: courtId,
+  });
+  revalidatePath('/entry/[id]', 'page');
+};
 
 const guestAdd = async (formData: { guestName: string; courtId: number }) => {
   'use server';
 
-  const session = await getServerSession(authOptions);
-
   const { guestName, courtId } = formData;
+  const session = await getServerSession(authOptions);
   await createGuest({
     guest_nm: guestName,
     court_id: courtId,
     invited_card_id: session.user.card_id,
   });
+
   const getCourt = await findGetCourtById(courtId);
   const msg = `${getCourt!.month}/${getCourt!.day} ${getCourt!.from_time}-${
     getCourt!.to_time
@@ -55,7 +74,12 @@ const EntryDetailPage = async ({ params }: { params: { id: string } }) => {
   return (
     <Flex direction="row" gap="md">
       <Navbar />
-      <EntryDetail data={getCourt} sameScheduleCourts={sameScheduleCourts} guestAdd={guestAdd} />
+      <EntryDetail
+        data={getCourt}
+        sameScheduleCourts={sameScheduleCourts}
+        guestAdd={guestAdd}
+        commentAdd={commentAdd}
+      />
     </Flex>
   );
 };

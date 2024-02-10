@@ -7,7 +7,7 @@ import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
 import { GetCourtList } from '@/src/app/court/_components/GetCourtList';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 import { EntryData, EntryForm } from '@/src/app/court/_types/court.type';
-import { createEntry, updateEntry } from '@/src/app/_lib/db/entry';
+import { createEntry, updateEntryPossibility } from '@/src/app/_lib/db/entry';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +25,7 @@ const entry = async (formData: EntryForm) => {
 
     if (updateTargetEntry) {
       console.log('更新');
-      await updateEntry({
+      await updateEntryPossibility({
         id: updateTargetEntry.id,
         possibility: d.possibility,
       });

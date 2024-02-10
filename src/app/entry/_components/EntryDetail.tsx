@@ -2,8 +2,19 @@
 
 'use client';
 
-import { Button, Flex, LoadingOverlay, Stack, Table, Text, TextInput, Title } from '@mantine/core';
-import { FC, createRef } from 'react';
+import {
+  Button,
+  Flex,
+  LoadingOverlay,
+  Paper,
+  Space,
+  Stack,
+  Table,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import { FC } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { useDisclosure } from '@mantine/hooks';
@@ -17,7 +28,8 @@ import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
 type Props = {
   data: EntryDataWithCardAll;
   sameScheduleCourts: EntryDataWithCard[];
-  guestAdd: (fd: any) => Promise<void>;
+  guestAdd: (fd: { guestName: string; courtId: number }) => Promise<void>;
+  commentAdd: (fd: { comment: string; courtId: number }) => Promise<void>;
 };
 
 // const Loading = () => {
@@ -29,17 +41,33 @@ type Props = {
 //   );
 // };
 
-const schema = z.object({
+const schemaGuest = z.object({
   guestName: z.string().trim().min(2, { message: '2文字以上入力して' }),
 });
 
-export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) => {
-  const form = useForm({
+const schemaComment = z.object({
+  comment: z
+    .string()
+    .trim()
+    .min(1, { message: '1文字以上入力して' })
+    .max(100, { message: '100文字以内で' }),
+});
+
+export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, commentAdd }) => {
+  const formGuest = useForm({
     initialValues: {
       guestName: '',
       courtId: data.id,
     },
-    validate: zodResolver(schema),
+    validate: zodResolver(schemaGuest),
+  });
+
+  const formComment = useForm({
+    initialValues: {
+      comment: '',
+      courtId: data.id,
+    },
+    validate: zodResolver(schemaComment),
   });
 
   const displayPossibilities = ['◎', '◯', '△+', '△-', '☓'] satisfies PossibilityDisplay[];
@@ -62,13 +90,26 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) =
       </Table.Tr>
     );
   });
-  const formRef = createRef<HTMLFormElement>();
   const [visible, { toggle, close }] = useDisclosure();
   const getCardUsers = sameScheduleCourts.map((c) => c.card.user_nm);
   const nameCounts = getCardUsers.reduce((acc, name) => {
     acc[name] = (acc[name] || 0) + 1;
     return acc;
   }, {} as { [key: string]: number });
+
+  const comments = (
+    <Paper withBorder shadow="xs" p="lg">
+      <Title order={4}>コメント欄</Title>
+      <Space h="sm" />
+      {data.entries.map((e, index) =>
+        e.comment ? (
+          <Text key={index}>
+            <b>{e.card.nick_nm}:</b> {e.comment}
+          </Text>
+        ) : null
+      )}
+    </Paper>
+  );
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -86,24 +127,19 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) =
         ))}
       </Stack>
       <form
-        onSubmit={form.onSubmit(async (values, event) => {
+        onSubmit={formGuest.onSubmit(async (values, event) => {
           toggle();
           event!.preventDefault();
-          if (formRef.current === null) return;
-          // formRef.current.submit();
-          // TODO loading
           await guestAdd(values);
           close();
+          formComment.reset();
         })}
-        ref={formRef}
-        // method="post"
-        // action={guestAdd}
       >
         <Flex direction="row" gap="xs">
           <TextInput
             name="guestName"
             placeholder="ゲスト登録"
-            {...form.getInputProps('guestName')}
+            {...formGuest.getInputProps('guestName')}
           />
           <Button style={{ padding: '8px' }} type="submit" size="xs">
             追加
@@ -120,6 +156,24 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd }) =
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
+      {comments}
+      <Space h="xs" />
+      <form
+        onSubmit={formComment.onSubmit(async (values) => {
+          toggle();
+          await commentAdd(values);
+          close();
+          formComment.reset();
+        })}
+      >
+        <Stack gap="md">
+          <TextInput
+            placeholder="entryしてからコメントしてね"
+            {...formComment.getInputProps('comment')}
+          />
+          <Button type="submit">コメント追加 / 更新</Button>
+        </Stack>
+      </form>
     </Flex>
   );
 };
