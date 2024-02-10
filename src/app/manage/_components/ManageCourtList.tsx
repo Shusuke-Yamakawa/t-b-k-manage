@@ -19,7 +19,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
   const [selectedPublic, setSelectedPublic] = useState<number[]>([]);
   const [selectedHold, setSelectedHold] = useState<number[]>([]);
 
-  const [visible, { toggle }] = useDisclosure(false);
+  const [visible, { open }] = useDisclosure(false);
   const publicCourt = async () => {
     for (const id of selectedPublic) {
       try {
@@ -106,7 +106,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
     <Flex direction="column" gap="md" m="lg">
       <Button
         onClick={async () => {
-          toggle();
+          open();
           await publicCourt();
         }}
         variant="light"
@@ -115,7 +115,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       </Button>
       <Button
         onClick={async () => {
-          toggle();
+          open();
           await holdCourt();
         }}
         variant="light"

@@ -55,7 +55,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
       };
     },
   });
-  const [visible, { toggle, close }] = useDisclosure();
+  const [visible, { open, close }] = useDisclosure();
 
   const rows = data.map((d, index) => {
     const dayOfWeek = dayjs(`${d.year}-${d.month}-${d.day}`).day();
@@ -77,7 +77,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
-        toggle();
+        open();
         try {
           await entry(values.courts);
           close();

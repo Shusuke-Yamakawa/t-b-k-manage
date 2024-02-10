@@ -33,7 +33,7 @@ export default function LoginPage() {
     validate: zodResolver(schema),
   });
 
-  const [visible, { toggle }] = useDisclosure(false);
+  const [visible, { open }] = useDisclosure(false);
 
   return (
     <Container size={420} my={40}>
@@ -42,12 +42,12 @@ export default function LoginPage() {
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form
           onSubmit={form.onSubmit(async (values) => {
-            toggle();
+            open();
             const result = await signIn('user', { redirect: false, ...values });
             if (result?.error) {
               form.setFieldError('cardId', 'IDかパスワードが誤っています');
               form.setFieldError('password', 'IDかパスワードが誤っています');
-              toggle();
+              open();
             } else {
               // ログイン成功時トップページへリダイレクト
               window.location.href = '/court';

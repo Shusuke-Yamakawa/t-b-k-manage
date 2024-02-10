@@ -90,7 +90,7 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       </Table.Tr>
     );
   });
-  const [visible, { toggle, close }] = useDisclosure();
+  const [visible, { open, close }] = useDisclosure();
   const getCardUsers = sameScheduleCourts.map((c) => c.card.user_nm);
   const nameCounts = getCardUsers.reduce((acc, name) => {
     acc[name] = (acc[name] || 0) + 1;
@@ -128,7 +128,7 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       </Stack>
       <form
         onSubmit={formGuest.onSubmit(async (values, event) => {
-          toggle();
+          open();
           event!.preventDefault();
           await guestAdd(values);
           close();
@@ -159,7 +159,7 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       {comments}
       <form
         onSubmit={formComment.onSubmit(async (values) => {
-          toggle();
+          open();
           await commentAdd(values);
           close();
           formComment.reset();
