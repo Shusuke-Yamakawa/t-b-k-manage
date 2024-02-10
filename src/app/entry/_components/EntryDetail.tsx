@@ -157,7 +157,6 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
       {comments}
-      <Space h="xs" />
       <form
         onSubmit={formComment.onSubmit(async (values) => {
           toggle();
