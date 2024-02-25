@@ -9,7 +9,6 @@ import {
   UnstyledButton,
   Text,
   HoverCard,
-  MantineStyleProp,
 } from '@mantine/core';
 import { FC } from 'react';
 import { useForm } from '@mantine/form';
@@ -21,6 +20,7 @@ import {
   convertPossibilityToDB,
   convertPossibilityToDisplay,
 } from '@/src/app/court/_utils/court.util';
+import { notificationsStyle } from '@/src/app/_styles/styles';
 
 type Props = {
   data: EntryData[];
@@ -76,20 +76,12 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
     );
   });
 
-  const notificationsStyle = {
-    width: '300px',
-    position: 'fixed',
-    top: '16px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-  } as const satisfies MantineStyleProp;
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
         open();
         try {
           await entry(values.courts);
-          close();
           notifications.show({
             color: 'blue',
             title: '成功',
@@ -103,6 +95,8 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
             message: 'エラーが発生しました',
             style: notificationsStyle,
           });
+        } finally {
+          close();
         }
       })}
     >

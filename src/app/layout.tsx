@@ -4,6 +4,7 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { theme } from '../../theme';
+import NextAuthProvider from '@/src/app/_providers/NextAuth';
 
 export const metadata = {
   title: 'T.B.K. Manage',
@@ -24,12 +25,14 @@ export default function RootLayout({ children }: { children: any }) {
         <meta property="og:image:height" content="<generated>" />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <ModalsProvider>
-            <Notifications position="top-center" autoClose={3000} />
-            {children}
-          </ModalsProvider>
-        </MantineProvider>
+        <NextAuthProvider>
+          <MantineProvider theme={theme}>
+            <ModalsProvider>
+              <Notifications position="top-center" autoClose={3000} />
+              {children}
+            </ModalsProvider>
+          </MantineProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
