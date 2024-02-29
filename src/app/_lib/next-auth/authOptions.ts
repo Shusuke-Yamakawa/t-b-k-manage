@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { randomUUID, randomBytes } from 'crypto';
-import { Card, findCardByIdAndPassword } from '@/src/app/_lib/db/card';
+import { findCardByIdAndPassword } from '@/src/app/_lib/db/card';
 
 export const authOptions = {
   /* providers */
@@ -31,7 +31,7 @@ export const authOptions = {
 
   /* callbacks */
   callbacks: {
-    async jwt({ token, user }: { token: any; user: Card }) {
+    async jwt({ token, user }: any) {
       if (user) {
         token = user;
       }
