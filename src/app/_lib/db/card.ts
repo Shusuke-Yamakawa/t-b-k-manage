@@ -32,7 +32,10 @@ export const findCardById = async (cardId: string) =>
     },
   });
 
-export const findCardByIdAndPassword = async (cardId: string, password: string) =>
+export const findCardByIdAndPassword = async (
+  cardId: string,
+  password: string
+): Promise<Card | null> =>
   prisma.card.findUnique({
     where: {
       card_id: cardId,

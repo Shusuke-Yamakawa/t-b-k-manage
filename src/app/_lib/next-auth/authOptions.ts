@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { randomUUID, randomBytes } from 'crypto';
-import { findCardByIdAndPassword } from '@/src/app/_lib/db/card';
+import { Card, findCardByIdAndPassword } from '@/src/app/_lib/db/card';
 
 export const authOptions = {
   /* providers */
@@ -14,7 +14,7 @@ export const authOptions = {
         cardId: { label: 'Card ID', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials) {
         console.log('credentials: ', credentials);
         const user = await findCardByIdAndPassword(credentials!.cardId, credentials!.password);
         console.log('user: ', user);
@@ -24,32 +24,27 @@ export const authOptions = {
           throw new Error('user does not exists');
         }
 
-        return user;
+        return { id: user.card_id, ...user };
       },
     }),
   ],
 
   /* callbacks */
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: { token: any; user: Card }) {
       if (user) {
-        token.user = user;
-        const u = user as any;
-        token.card_id = u.card_id;
-        token.user_nm = u.user_nm;
-        token.nick_nm = u.nick_nm;
-        token.admin_flg = u.admin_flg;
+        token = user;
       }
 
       return token;
     },
     session: ({ session, token }: any) => {
-      if (token) {
-        session.user.card_id = token.card_id;
-        session.user.user_nm = token.user_nm;
-        session.user.nick_nm = token.nick_nm;
-        session.user.admin_flg = token.admin_flg;
-      }
+      session.user = {
+        card_id: token.card_id,
+        user_nm: token.user_nm,
+        nick_nm: token.nick_nm,
+        admin_flg: token.admin_flg,
+      };
       return session;
     },
   },
