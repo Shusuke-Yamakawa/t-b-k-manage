@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       note: '新システム',
     });
     const msg = nickNm || userNm;
-    notify_line(msg, '7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B');
+    await notify_line(msg, '7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B');
   } catch (e) {
     console.log('登録エラー ', e);
   }

@@ -27,7 +27,7 @@ const register = async (formData: RegisterNewType) => {
       note: '新システム',
     });
     const msg = cardInfo!.nick_nm ? cardInfo!.nick_nm : cardInfo!.user_nm;
-    notify_line(msg, '7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B');
+    await notify_line(msg, '7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B');
   } catch (e) {
     console.log('登録エラー ', e);
   }
