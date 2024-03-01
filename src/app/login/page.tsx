@@ -17,11 +17,9 @@ import { useDisclosure } from '@mantine/hooks';
 
 const schema = z.object({
   cardId: z.string().min(8, { message: 'IDは8文字です' }).max(8, { message: 'IDは8文字です' }),
-  password: z
-    .string()
-    .trim()
-    .min(8, { message: 'パスワードは8文字です' })
-    .max(8, { message: 'パスワードは8文字です' }),
+  password: z.string().trim(),
+  // .min(10, { message: 'パスワードは8文字です' })
+  // .max(24, { message: 'パスワードは8文字です' }),
 });
 
 export default function LoginPage() {
@@ -63,7 +61,7 @@ export default function LoginPage() {
           <PasswordInput
             label="Password"
             placeholder="生年月日を入れてください"
-            maxLength={8}
+            maxLength={24}
             mt="md"
             {...form.getInputProps('password')}
           />

@@ -27,8 +27,8 @@ export const schema = z.object({
   password: z
     .string()
     .trim()
-    .min(8, { message: 'パスワードは8文字です' })
-    .max(8, { message: 'パスワードは8文字です' }),
+    .min(10, { message: 'パスワードは10文字以上入れて' })
+    .max(24, { message: 'パスワードは24文字以内' }),
 });
 
 export const CardList: FC<Props> = ({ data, register }) => {
@@ -66,7 +66,7 @@ export const CardList: FC<Props> = ({ data, register }) => {
           <PasswordInput
             label="Password"
             placeholder="生年月日を入れてください"
-            maxLength={8}
+            maxLength={24}
             mt="md"
             {...form.getInputProps('password')}
           />
