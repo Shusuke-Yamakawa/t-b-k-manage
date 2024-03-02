@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       admin_flg: false,
       note: '新システム',
     });
-    const msg = nickNm || userNm;
+    const msg = `${userNm}\n${nickNm}`;
     await notify_line(msg, '7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B');
   } catch (e) {
     console.log('登録エラー ', e);
