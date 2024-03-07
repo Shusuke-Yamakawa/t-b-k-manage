@@ -9,6 +9,7 @@ export type GetCourt = {
   from_time: number;
   to_time: number;
   court: string;
+  reserve_no: string;
   public_flg?: boolean;
   hold_flg?: boolean;
 };

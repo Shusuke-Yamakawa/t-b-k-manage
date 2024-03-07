@@ -57,6 +57,7 @@ model getCourt {
   from_time Int
   to_time   Int
   court     String
+  reserve_no String @default("")
   public_flg  Boolean    @default(false)
   hold_flg  Boolean    @default(false)
   updatedAt DateTime @updatedAt
