@@ -33,7 +33,7 @@ export default function LoginPage() {
     validate: zodResolver(schema),
   });
 
-  const [visible, { open }] = useDisclosure(false);
+  const [visible, { open, close }] = useDisclosure(false);
 
   return (
     <Container size={420} my={40}>
@@ -47,7 +47,7 @@ export default function LoginPage() {
             if (result?.error) {
               form.setFieldError('cardId', 'IDかパスワードが誤っています');
               form.setFieldError('password', 'IDかパスワードが誤っています');
-              open();
+              close();
             } else {
               // ログイン成功時トップページへリダイレクト
               window.location.href = '/court';
@@ -68,7 +68,7 @@ export default function LoginPage() {
             {...form.getInputProps('password')}
           />
           <Button type="submit" fullWidth mt="xl">
-            Sign in
+            ログイン
           </Button>
           <Text ta="center" mt="md">
             新規登録の方は <Link href="/register">こちら</Link>
