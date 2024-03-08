@@ -28,8 +28,10 @@ import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
 type Props = {
   data: EntryDataWithCardAll;
   sameScheduleCourts: EntryDataWithCard[];
+  adminFlg: boolean;
   guestAdd: (fd: { guestName: string; courtId: number }) => Promise<void>;
   commentAdd: (fd: { comment: string; courtId: number }) => Promise<void>;
+  receptionNotify: (fd: { reception: string; courtId: number }) => Promise<void>;
 };
 
 // const Loading = () => {
@@ -53,7 +55,22 @@ const schemaComment = z.object({
     .max(100, { message: '100文字以内で' }),
 });
 
-export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, commentAdd }) => {
+const schemaReception = z.object({
+  reception: z
+    .string()
+    .trim()
+    .min(1, { message: '1文字以上入力して' })
+    .max(10, { message: '10文字以内で' }),
+});
+
+export const EntryDetail: FC<Props> = ({
+  data,
+  sameScheduleCourts,
+  adminFlg,
+  guestAdd,
+  commentAdd,
+  receptionNotify,
+}) => {
   const formGuest = useForm({
     initialValues: {
       guestName: '',
@@ -68,6 +85,14 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       courtId: data.id,
     },
     validate: zodResolver(schemaComment),
+  });
+
+  const formReception = useForm({
+    initialValues: {
+      reception: 'しゅう',
+      courtId: data.id,
+    },
+    validate: zodResolver(schemaReception),
   });
 
   const displayPossibilities = ['◎', '◯', '△+', '△-', '☓'] satisfies PossibilityDisplay[];
@@ -110,6 +135,44 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
       )}
     </Paper>
   );
+
+  const commentForm = (
+    <form
+      onSubmit={formComment.onSubmit(async (values) => {
+        open();
+        await commentAdd(values);
+        close();
+        formComment.reset();
+      })}
+    >
+      <Stack gap="md">
+        <TextInput
+          label="コメント"
+          placeholder="entryしてからコメントしてね"
+          {...formComment.getInputProps('comment')}
+        />
+        <Button type="submit">コメント追加 / 更新</Button>
+      </Stack>
+    </form>
+  );
+
+  const reception = adminFlg ? (
+    <form
+      onSubmit={formReception.onSubmit(async (values) => {
+        open();
+        await receptionNotify(values);
+        close();
+        formReception.reset();
+      })}
+    >
+      <Stack gap="md">
+        <TextInput label="受付" {...formReception.getInputProps('reception')} />
+        <Button color="green" type="submit">
+          受付通知
+        </Button>
+      </Stack>
+    </form>
+  ) : null;
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -168,23 +231,8 @@ export const EntryDetail: FC<Props> = ({ data, sameScheduleCourts, guestAdd, com
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
       {comments}
-      <form
-        onSubmit={formComment.onSubmit(async (values) => {
-          open();
-          await commentAdd(values);
-          close();
-          formComment.reset();
-        })}
-      >
-        <Stack gap="md">
-          <TextInput
-            label="コメント"
-            placeholder="entryしてからコメントしてね"
-            {...formComment.getInputProps('comment')}
-          />
-          <Button type="submit">コメント追加 / 更新</Button>
-        </Stack>
-      </form>
+      {commentForm}
+      {reception}
     </Flex>
   );
 };
