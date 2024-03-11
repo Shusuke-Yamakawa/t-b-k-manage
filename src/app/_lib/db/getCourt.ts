@@ -70,56 +70,45 @@ export const findGetCourtOverCurrentCourt = async (options?: {
   cardIds?: string[];
   publicFlg?: boolean;
 }) => {
-  const date = currentDate();
-  const month = date.month() + 1;
-  let nextMonths = month;
-  if (month === 12) {
-    nextMonths = 1;
-  } else {
-    nextMonths = month + 1;
-  }
-  const day = date.date();
+  const date = currentDate(); // 今日の日付を取得
+  const currentYear = date.year();
+  const currentMonth = date.month() + 1; // dayjsのmonthは0始まりなので+1して調整
+  const currentDay = date.date();
 
+  // 条件の修正
   const whereConditions = {
     AND: [
       {
+        // 現在の年以上
         year: {
-          gte: date.year(),
+          gte: currentYear,
         },
       },
       {
+        // 現在の年での条件
         OR: [
+          // 現在の月より大きい場合は日に関係なくすべて含める
           {
-            month: {
-              gte: month,
-            },
+            AND: [{ year: currentYear }, { month: { gt: currentMonth } }],
           },
+          // 現在の月で現在の日以降のデータを取得
           {
-            month: nextMonths,
+            AND: [{ year: currentYear }, { month: currentMonth }, { day: { gte: currentDay } }],
           },
-        ],
-      },
-      {
-        OR: [
+          // 次の年以降は全てのデータを含める
           {
-            day: {
-              gte: day,
-            },
-          },
-          {
-            month: nextMonths,
+            year: { gt: currentYear },
           },
         ],
       },
     ],
   } as any;
 
+  // オプションに基づいて条件を追加
   const { cardIds, publicFlg } = options || {};
-
   if (cardIds && cardIds.length > 0) {
     whereConditions.card_id = { not: { in: cardIds } };
   }
-
   if (publicFlg !== undefined) {
     whereConditions.public_flg = publicFlg;
   }
