@@ -10,6 +10,7 @@ import { GetCourt } from '@/src/app/_lib/db/getCourt';
 import { Card } from '@/src/app/_lib/db/card';
 import { API_URL } from '@/src/app/_consts/environment.const';
 import { Id } from '@/src/app/_types/type';
+import { CourtAddModal } from '@/src/app/manage/_components/CourtAddModal';
 
 type Props = {
   data: (Id & GetCourt & { card: Card })[];
@@ -20,6 +21,8 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
   const [selectedHold, setSelectedHold] = useState<number[]>([]);
 
   const [visible, { open }] = useDisclosure(false);
+  const [opened, { open: modalOpen, close }] = useDisclosure(false);
+
   const publicCourt = async () => {
     for (const id of selectedPublic) {
       try {
@@ -104,6 +107,9 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
   ));
   return (
     <Flex direction="column" gap="md" m="lg">
+      <Button onClick={modalOpen} variant="light">
+        コート登録
+      </Button>
       <Button
         onClick={async () => {
           open();
@@ -122,6 +128,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       >
         開催
       </Button>
+      <CourtAddModal opened={opened} close={close} />
       <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
       <Table>
         <Table.Thead>
