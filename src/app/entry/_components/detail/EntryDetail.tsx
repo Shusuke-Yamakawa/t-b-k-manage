@@ -2,18 +2,7 @@
 
 'use client';
 
-import {
-  Button,
-  Flex,
-  LoadingOverlay,
-  Paper,
-  Space,
-  Stack,
-  Table,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Button, Flex, LoadingOverlay, Stack, Table, Text, TextInput, Title } from '@mantine/core';
 import { FC } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -24,6 +13,7 @@ import {
   PossibilityDisplay,
 } from '@/src/app/court/_types/court.type';
 import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
+import { CommentForm, Comments } from '@/src/app/entry/_components/detail/Comment';
 
 type Props = {
   data: EntryDataWithCardAll;
@@ -45,14 +35,6 @@ type Props = {
 
 const schemaGuest = z.object({
   guestName: z.string().trim().min(2, { message: '2文字以上入力して' }),
-});
-
-const schemaComment = z.object({
-  comment: z
-    .string()
-    .trim()
-    .min(1, { message: '1文字以上入力して' })
-    .max(100, { message: '100文字以内で' }),
 });
 
 const schemaReception = z.object({
@@ -77,14 +59,6 @@ export const EntryDetail: FC<Props> = ({
       courtId: data.id,
     },
     validate: zodResolver(schemaGuest),
-  });
-
-  const formComment = useForm({
-    initialValues: {
-      comment: '',
-      courtId: data.id,
-    },
-    validate: zodResolver(schemaComment),
   });
 
   const formReception = useForm({
@@ -121,40 +95,6 @@ export const EntryDetail: FC<Props> = ({
     acc[name] = (acc[name] || 0) + 1;
     return acc;
   }, {} as { [key: string]: number });
-
-  const comments = (
-    <Paper withBorder shadow="xs" p="lg">
-      <Title order={4}>コメント欄</Title>
-      <Space h="sm" />
-      {data.entries.map((e, index) =>
-        e.comment ? (
-          <Text key={index}>
-            <b>{e.card.nick_nm}:</b> {e.comment}
-          </Text>
-        ) : null
-      )}
-    </Paper>
-  );
-
-  const commentForm = (
-    <form
-      onSubmit={formComment.onSubmit(async (values) => {
-        open();
-        await commentAdd(values);
-        close();
-        formComment.reset();
-      })}
-    >
-      <Stack gap="md">
-        <TextInput
-          label="コメント"
-          placeholder="entryしてからコメントしてね"
-          {...formComment.getInputProps('comment')}
-        />
-        <Button type="submit">コメント追加 / 更新</Button>
-      </Stack>
-    </form>
-  );
 
   const reception = adminFlg ? (
     <form
@@ -195,7 +135,7 @@ export const EntryDetail: FC<Props> = ({
           event!.preventDefault();
           await guestAdd(values);
           close();
-          formComment.reset();
+          formGuest.reset();
         })}
       >
         <Flex direction="row" gap="xs">
@@ -230,8 +170,8 @@ export const EntryDetail: FC<Props> = ({
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-      {comments}
-      {commentForm}
+      <Comments data={data} />
+      <CommentForm courtId={data.id} commentAdd={commentAdd} open={open} close={close} />
       {reception}
     </Flex>
   );

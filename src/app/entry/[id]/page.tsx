@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { Navbar } from '@/src/app/_layouts';
 import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
 import { findGetCourtById, findGetCourtSameSchedule } from '@/src/app/_lib/db/getCourt';
-import { EntryDetail } from '@/src/app/entry/_components/EntryDetail';
+import { EntryDetail } from '@/src/app/entry/_components/detail/EntryDetail';
 import { EntryDataWithCard, EntryDataWithCardAll } from '@/src/app/court/_types/court.type';
 import { createGuest } from '@/src/app/_lib/db/guest';
 import { notify_line } from '@/src/app/_utils/line';
