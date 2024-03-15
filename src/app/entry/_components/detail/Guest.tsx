@@ -19,7 +19,7 @@ type Props = {
  * @package
  */
 export const Guest: FC<Props> = ({ courtId, guestAdd, open, close }) => {
-  const formGuest = useForm({
+  const form = useForm({
     initialValues: {
       guestName: '',
       courtId,
@@ -28,20 +28,16 @@ export const Guest: FC<Props> = ({ courtId, guestAdd, open, close }) => {
   });
   return (
     <form
-      onSubmit={formGuest.onSubmit(async (values, event) => {
+      onSubmit={form.onSubmit(async (values, event) => {
         open();
         event!.preventDefault();
         await guestAdd(values);
         close();
-        formGuest.reset();
+        form.reset();
       })}
     >
       <Flex direction="row" gap="xs">
-        <TextInput
-          name="guestName"
-          placeholder="ゲスト登録"
-          {...formGuest.getInputProps('guestName')}
-        />
+        <TextInput name="guestName" placeholder="ゲスト登録" {...form.getInputProps('guestName')} />
         <Button style={{ padding: '8px' }} type="submit" size="xs">
           追加
         </Button>

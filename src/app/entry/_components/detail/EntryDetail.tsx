@@ -2,10 +2,8 @@
 
 'use client';
 
-import { Button, Flex, LoadingOverlay, Stack, Table, Text, TextInput, Title } from '@mantine/core';
+import { Flex, LoadingOverlay, Stack, Table, Text, Title } from '@mantine/core';
 import { FC } from 'react';
-import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 import { useDisclosure } from '@mantine/hooks';
 import {
   EntryDataWithCard,
@@ -15,6 +13,7 @@ import {
 import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
 import { CommentForm, Comments } from '@/src/app/entry/_components/detail/Comment';
 import { Guest } from '@/src/app/entry/_components/detail/Guest';
+import { Reception } from '@/src/app/entry/_components/detail/Reception';
 
 type Props = {
   data: EntryDataWithCardAll;
@@ -34,14 +33,6 @@ type Props = {
 //   );
 // };
 
-const schemaReception = z.object({
-  reception: z
-    .string()
-    .trim()
-    .min(1, { message: '1文字以上入力して' })
-    .max(10, { message: '10文字以内で' }),
-});
-
 export const EntryDetail: FC<Props> = ({
   data,
   sameScheduleCourts,
@@ -50,14 +41,6 @@ export const EntryDetail: FC<Props> = ({
   commentAdd,
   receptionNotify,
 }) => {
-  const formReception = useForm({
-    initialValues: {
-      reception: 'しゅう',
-      courtId: data.id,
-    },
-    validate: zodResolver(schemaReception),
-  });
-
   const displayPossibilities = ['◎', '◯', '△+', '△-', '☓'] satisfies PossibilityDisplay[];
   const rows = displayPossibilities.map((possibility) => {
     const entries = data.entries.filter(
@@ -84,24 +67,6 @@ export const EntryDetail: FC<Props> = ({
     acc[name] = (acc[name] || 0) + 1;
     return acc;
   }, {} as { [key: string]: number });
-
-  const reception = adminFlg ? (
-    <form
-      onSubmit={formReception.onSubmit(async (values) => {
-        open();
-        await receptionNotify(values);
-        close();
-        formReception.reset();
-      })}
-    >
-      <Stack gap="md">
-        <TextInput label="受付" {...formReception.getInputProps('reception')} />
-        <Button color="green" type="submit">
-          受付通知
-        </Button>
-      </Stack>
-    </form>
-  ) : null;
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -142,7 +107,9 @@ export const EntryDetail: FC<Props> = ({
       </Table>
       <Comments data={data} />
       <CommentForm courtId={data.id} commentAdd={commentAdd} open={open} close={close} />
-      {reception}
+      {adminFlg && (
+        <Reception courtId={data.id} receptionNotify={receptionNotify} open={open} close={close} />
+      )}
     </Flex>
   );
 };
