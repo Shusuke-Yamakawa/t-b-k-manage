@@ -3,62 +3,30 @@
 'use client';
 
 import { Button, Checkbox, Flex, LoadingOverlay, Table } from '@mantine/core';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import axios from 'axios';
 import { GetCourt } from '@/src/app/_lib/db/getCourt';
 import { Card } from '@/src/app/_lib/db/card';
-import { API_URL } from '@/src/app/_consts/environment.const';
 import { Id } from '@/src/app/_types/type';
 import { CourtAddModal } from '@/src/app/manage/_components/CourtAddModal';
+import { useManageCourt } from '@/src/app/manage/_hooks/useManageCourt';
 
 type Props = {
   data: (Id & GetCourt & { card: Card })[];
 };
 
 export const ManageCourtList: FC<Props> = ({ data }) => {
-  const [selectedPublic, setSelectedPublic] = useState<number[]>([]);
-  const [selectedHold, setSelectedHold] = useState<number[]>([]);
+  const {
+    selectedPublic,
+    setSelectedPublic,
+    selectedHold,
+    setSelectedHold,
+    publicCourt,
+    holdCourt,
+  } = useManageCourt();
 
   const [visible, { open }] = useDisclosure(false);
   const [opened, { open: modalOpen, close }] = useDisclosure(false);
-
-  const publicCourt = async () => {
-    for (const id of selectedPublic) {
-      try {
-        const getCourt = await axios.get(`${API_URL}manage/api/${id}`);
-        const court = getCourt.data;
-        const updPublicFlg = !court.public_flg;
-        await axios.put(`${API_URL}manage/api/${id}`, {
-          publicFlg: updPublicFlg,
-          holdFlg: court.hold_flg,
-        });
-      } catch (error) {
-        console.error(`Failed to update court with ID: ${id}`);
-        break;
-      }
-    }
-    // リフェッチする
-    window.location.reload();
-  };
-  const holdCourt = async () => {
-    for (const id of selectedHold) {
-      try {
-        const getCourt = await axios.get(`${API_URL}manage/api/${id}`);
-        const court = getCourt.data;
-        const updHoldFlg = !court.hold_flg;
-        await axios.put(`${API_URL}manage/api/${id}`, {
-          publicFlg: court.public_flg,
-          holdFlg: updHoldFlg,
-        });
-      } catch (error) {
-        console.error(`Failed to update court with ID: ${id}`);
-        break;
-      }
-    }
-    // リフェッチする
-    window.location.reload();
-  };
 
   const rows = data.map((d) => (
     <Table.Tr
