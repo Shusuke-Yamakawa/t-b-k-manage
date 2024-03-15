@@ -24,7 +24,7 @@ type FormProps = {
  * @package
  */
 export const CommentForm: FC<FormProps> = ({ courtId, commentAdd, open, close }) => {
-  const formComment = useForm({
+  const form = useForm({
     initialValues: {
       comment: '',
       courtId,
@@ -33,18 +33,18 @@ export const CommentForm: FC<FormProps> = ({ courtId, commentAdd, open, close })
   });
   return (
     <form
-      onSubmit={formComment.onSubmit(async (values) => {
+      onSubmit={form.onSubmit(async (values) => {
         open();
         await commentAdd(values);
         close();
-        formComment.reset();
+        form.reset();
       })}
     >
       <Stack gap="md">
         <TextInput
           label="コメント"
           placeholder="entryしてからコメントしてね"
-          {...formComment.getInputProps('comment')}
+          {...form.getInputProps('comment')}
         />
         <Button type="submit">コメント追加 / 更新</Button>
       </Stack>

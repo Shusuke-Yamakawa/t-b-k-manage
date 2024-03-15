@@ -14,6 +14,7 @@ import {
 } from '@/src/app/court/_types/court.type';
 import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
 import { CommentForm, Comments } from '@/src/app/entry/_components/detail/Comment';
+import { Guest } from '@/src/app/entry/_components/detail/Guest';
 
 type Props = {
   data: EntryDataWithCardAll;
@@ -33,10 +34,6 @@ type Props = {
 //   );
 // };
 
-const schemaGuest = z.object({
-  guestName: z.string().trim().min(2, { message: '2文字以上入力して' }),
-});
-
 const schemaReception = z.object({
   reception: z
     .string()
@@ -53,14 +50,6 @@ export const EntryDetail: FC<Props> = ({
   commentAdd,
   receptionNotify,
 }) => {
-  const formGuest = useForm({
-    initialValues: {
-      guestName: '',
-      courtId: data.id,
-    },
-    validate: zodResolver(schemaGuest),
-  });
-
   const formReception = useForm({
     initialValues: {
       reception: 'しゅう',
@@ -129,26 +118,7 @@ export const EntryDetail: FC<Props> = ({
           </Text>
         ))}
       </Stack>
-      <form
-        onSubmit={formGuest.onSubmit(async (values, event) => {
-          open();
-          event!.preventDefault();
-          await guestAdd(values);
-          close();
-          formGuest.reset();
-        })}
-      >
-        <Flex direction="row" gap="xs">
-          <TextInput
-            name="guestName"
-            placeholder="ゲスト登録"
-            {...formGuest.getInputProps('guestName')}
-          />
-          <Button style={{ padding: '8px' }} type="submit" size="xs">
-            追加
-          </Button>
-        </Flex>
-      </form>
+      <Guest courtId={data.id} guestAdd={guestAdd} open={open} close={close} />
       <LoadingOverlay
         styles={{
           overlay: {
