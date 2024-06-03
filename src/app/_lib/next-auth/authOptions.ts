@@ -4,7 +4,6 @@ import { randomUUID, randomBytes } from 'crypto';
 import { findCardByIdAndPassword } from '@/src/app/_lib/db/card';
 
 export const authOptions = {
-  /* providers */
   providers: [
     // ユーザ用認証
     CredentialsProvider({
