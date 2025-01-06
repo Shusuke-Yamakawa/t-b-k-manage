@@ -13,8 +13,8 @@ export const CourtAddModal: FC<Props> = ({ opened, close }) => {
   const form = useForm({
     initialValues: {
       cardId: '10041424',
-      year: 2024,
-      month: 5,
+      year: 2025,
+      month: 4,
       day: 1,
       fromTime: 9,
       toTime: 11,
