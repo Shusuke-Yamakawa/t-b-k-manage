@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import {
-  Button,
-  Flex,
-  LoadingOverlay,
-  Select,
-  Table,
-  UnstyledButton,
-  Text,
-  HoverCard,
-} from '@mantine/core';
-import { FC } from 'react';
-import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
-import dayjs from 'dayjs';
-import { notifications } from '@mantine/notifications';
-import { EntryData, EntryForm } from '@/src/app/court/_types/court.type';
+import { notificationsStyle } from "@/src/app/_styles/styles";
+import type { EntryData, EntryForm } from "@/src/app/court/_types/court.type";
 import {
   convertPossibilityToDB,
   convertPossibilityToDisplay,
-} from '@/src/app/court/_utils/court.util';
-import { notificationsStyle } from '@/src/app/_styles/styles';
+} from "@/src/app/court/_utils/court.util";
+import {
+  Button,
+  Flex,
+  HoverCard,
+  LoadingOverlay,
+  Select,
+  Table,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import dayjs from "dayjs";
+import type { FC } from "react";
 
 type Props = {
   data: EntryData[];
@@ -43,7 +43,7 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
       courts: data.map((d) => ({
         ...d,
         possibility: convertPossibilityToDisplay(
-          d.entries.find((e) => e.card_id === loginCardId)?.possibility!
+          d.entries.find((e) => e.card_id === loginCardId)?.possibility!,
         ),
       })),
     },
@@ -63,12 +63,14 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
     const isSaturday = dayOfWeek === 6;
     return (
       <Table.Tr key={d.id}>
-        <Table.Td bg={isSaturday ? 'var(--mantine-color-blue-light)' : undefined}>
+        <Table.Td
+          bg={isSaturday ? "var(--mantine-color-blue-light)" : undefined}
+        >
           {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}
         </Table.Td>
         <Table.Td>
           <Select
-            data={['-', '◎', '◯', '△+', '△-', '☓']}
+            data={["-", "◎", "◯", "△+", "△-", "☓"]}
             {...form.getInputProps(`courts.${index}.possibility`)}
           />
         </Table.Td>
@@ -83,16 +85,16 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
         try {
           await entry(values.courts);
           notifications.show({
-            color: 'blue',
-            title: '成功',
-            message: 'エントリーが完了しました',
+            color: "blue",
+            title: "成功",
+            message: "エントリーが完了しました",
             style: notificationsStyle,
           });
         } catch (e) {
           notifications.show({
-            color: 'red',
-            title: 'エラー',
-            message: 'エラーが発生しました',
+            color: "red",
+            title: "エラー",
+            message: "エラーが発生しました",
             style: notificationsStyle,
           });
         } finally {
@@ -104,7 +106,11 @@ export const GetCourtList: FC<Props> = ({ data, entry, loginCardId }) => {
         <Button type="submit" variant="light">
           エントリー
         </Button>
-        <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+        <LoadingOverlay
+          visible={visible}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
         <HoverCard width={200} shadow="md">
           <HoverCard.Target>
             <UnstyledButton>参加可否の詳細</UnstyledButton>

@@ -1,19 +1,22 @@
 /* eslint-disable no-irregular-whitespace */
 
-'use client';
+"use client";
 
-import { Flex, LoadingOverlay, Stack, Table, Text, Title } from '@mantine/core';
-import { FC } from 'react';
-import { useDisclosure } from '@mantine/hooks';
-import {
+import type {
   EntryDataWithCard,
   EntryDataWithCardAll,
   PossibilityDisplay,
-} from '@/src/app/court/_types/court.type';
-import { convertPossibilityToDisplay } from '@/src/app/court/_utils/court.util';
-import { CommentForm, Comments } from '@/src/app/entry/_components/detail/Comment';
-import { Guest } from '@/src/app/entry/_components/detail/Guest';
-import { Reception } from '@/src/app/entry/_components/detail/Reception';
+} from "@/src/app/court/_types/court.type";
+import { convertPossibilityToDisplay } from "@/src/app/court/_utils/court.util";
+import {
+  CommentForm,
+  Comments,
+} from "@/src/app/entry/_components/detail/Comment";
+import { Guest } from "@/src/app/entry/_components/detail/Guest";
+import { Reception } from "@/src/app/entry/_components/detail/Reception";
+import { Flex, LoadingOverlay, Stack, Table, Text, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import type { FC } from "react";
 
 type Props = {
   data: EntryDataWithCardAll;
@@ -21,7 +24,10 @@ type Props = {
   adminFlg: boolean;
   guestAdd: (fd: { guestName: string; courtId: number }) => Promise<void>;
   commentAdd: (fd: { comment: string; courtId: number }) => Promise<void>;
-  receptionNotify: (fd: { reception: string; courtId: number }) => Promise<void>;
+  receptionNotify: (fd: {
+    reception: string;
+    courtId: number;
+  }) => Promise<void>;
 };
 
 // const Loading = () => {
@@ -41,12 +47,18 @@ export const EntryDetail: FC<Props> = ({
   commentAdd,
   receptionNotify,
 }) => {
-  const displayPossibilities = ['◎', '◯', '△+', '△-', '☓'] satisfies PossibilityDisplay[];
+  const displayPossibilities = [
+    "◎",
+    "◯",
+    "△+",
+    "△-",
+    "☓",
+  ] satisfies PossibilityDisplay[];
   const rows = displayPossibilities.map((possibility) => {
     const entries = data.entries.filter(
-      (e) => convertPossibilityToDisplay(e.possibility) === possibility
+      (e) => convertPossibilityToDisplay(e.possibility) === possibility,
     );
-    const guests = data.guests.filter(() => possibility === '◎');
+    const guests = data.guests.filter(() => possibility === "◎");
     return (
       <Table.Tr key={possibility}>
         <Table.Td>{possibility}</Table.Td>
@@ -63,10 +75,13 @@ export const EntryDetail: FC<Props> = ({
   });
   const [visible, { open, close }] = useDisclosure();
   const getCardUsers = sameScheduleCourts.map((c) => c.card.user_nm);
-  const nameCounts = getCardUsers.reduce((acc, name) => {
-    acc[name] = (acc[name] || 0) + 1;
-    return acc;
-  }, {} as { [key: string]: number });
+  const nameCounts = getCardUsers.reduce(
+    (acc, name) => {
+      acc[name] = (acc[name] || 0) + 1;
+      return acc;
+    },
+    {} as { [key: string]: number },
+  );
 
   return (
     <Flex direction="column" gap="md" m="lg">
@@ -87,11 +102,11 @@ export const EntryDetail: FC<Props> = ({
       <LoadingOverlay
         styles={{
           overlay: {
-            position: 'fixed', // 画面全体を覆うように固定
+            position: "fixed", // 画面全体を覆うように固定
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
           },
         }}
         visible={visible}
@@ -106,9 +121,19 @@ export const EntryDetail: FC<Props> = ({
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
       <Comments data={data} />
-      <CommentForm courtId={data.id} commentAdd={commentAdd} open={open} close={close} />
+      <CommentForm
+        courtId={data.id}
+        commentAdd={commentAdd}
+        open={open}
+        close={close}
+      />
       {adminFlg && (
-        <Reception courtId={data.id} receptionNotify={receptionNotify} open={open} close={close} />
+        <Reception
+          courtId={data.id}
+          receptionNotify={receptionNotify}
+          open={open}
+          close={close}
+        />
       )}
     </Flex>
   );

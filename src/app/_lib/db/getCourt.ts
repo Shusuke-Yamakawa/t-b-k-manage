@@ -1,5 +1,5 @@
-import { prisma } from '@/src/app/_lib/prisma';
-import { currentDate } from '@/src/app/_utils/date';
+import { prisma } from "@/src/app/_lib/prisma";
+import { currentDate } from "@/src/app/_utils/date";
 
 export type GetCourt = {
   card_id: string;
@@ -22,7 +22,8 @@ type CardIds = {
   cardIds: string[];
 };
 
-export const createGetCourt = async (params: GetCourt) => prisma.getCourt.create({ data: params });
+export const createGetCourt = async (params: GetCourt) =>
+  prisma.getCourt.create({ data: params });
 
 export const deleteGetCourtById = async ({ id }: Id) =>
   prisma.getCourt.delete({
@@ -36,7 +37,9 @@ export const deleteGetCourtBySpecialIds = async ({ cardIds }: CardIds) =>
       card_id: { in: cardIds },
     },
   });
-export const deleteGetCourtCurrentMonthBySpecialIds = async ({ cardIds }: CardIds) => {
+export const deleteGetCourtCurrentMonthBySpecialIds = async ({
+  cardIds,
+}: CardIds) => {
   const date = currentDate();
   const month = date.month() + 1;
   return prisma.getCourt.deleteMany({
@@ -93,7 +96,11 @@ export const findGetCourtOverCurrentCourt = async (options?: {
           },
           // 現在の月で現在の日以降のデータを取得
           {
-            AND: [{ year: currentYear }, { month: currentMonth }, { day: { gte: currentDay } }],
+            AND: [
+              { year: currentYear },
+              { month: currentMonth },
+              { day: { gte: currentDay } },
+            ],
           },
           // 次の年以降は全てのデータを含める
           {
@@ -121,12 +128,12 @@ export const findGetCourtOverCurrentCourt = async (options?: {
       guests: true,
     },
     orderBy: [
-      { year: 'asc' },
-      { month: 'asc' },
-      { day: 'asc' },
-      { from_time: 'asc' },
-      { court: 'asc' },
-      { card_id: 'asc' },
+      { year: "asc" },
+      { month: "asc" },
+      { day: "asc" },
+      { from_time: "asc" },
+      { court: "asc" },
+      { card_id: "asc" },
     ],
   });
 };

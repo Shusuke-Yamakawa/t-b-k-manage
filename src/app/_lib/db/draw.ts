@@ -1,5 +1,5 @@
-import { prisma } from '@/src/app/_lib/prisma';
-import { currentDate } from '@/src/app/_utils/date';
+import { prisma } from "@/src/app/_lib/prisma";
+import { currentDate } from "@/src/app/_utils/date";
 
 export type Draw = {
   card_id: string;
@@ -20,7 +20,8 @@ type CardIds = {
   cardIds: string[];
 };
 
-export const createDraw = async (params: Draw) => prisma.draw.create({ data: params });
+export const createDraw = async (params: Draw) =>
+  prisma.draw.create({ data: params });
 
 export const updateConfirmDrawFlg = async (id: number) =>
   prisma.draw.update({
@@ -39,7 +40,9 @@ export const deleteDrawById = async ({ id }: Id) =>
     },
   });
 
-export const deleteDrawCurrentMonthBySpecialIds = async ({ cardIds }: CardIds) => {
+export const deleteDrawCurrentMonthBySpecialIds = async ({
+  cardIds,
+}: CardIds) => {
   const date = currentDate();
   const month = date.month() + 1;
   return prisma.draw.deleteMany({
@@ -84,12 +87,12 @@ export const findDrawNextMonthCourt = async (confirmFlg?: boolean) => {
     where: whereConditions,
     include: { card: true },
     orderBy: [
-      { year: 'asc' },
-      { month: 'asc' },
-      { day: 'asc' },
-      { from_time: 'asc' },
-      { court: 'asc' },
-      { card_id: 'asc' },
+      { year: "asc" },
+      { month: "asc" },
+      { day: "asc" },
+      { from_time: "asc" },
+      { court: "asc" },
+      { card_id: "asc" },
     ],
   });
 };

@@ -1,26 +1,29 @@
+import { randomBytes, randomUUID } from "crypto";
+import { findCardByIdAndPassword } from "@/src/app/_lib/db/card";
 /* eslint-disable no-param-reassign */
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { randomUUID, randomBytes } from 'crypto';
-import { findCardByIdAndPassword } from '@/src/app/_lib/db/card';
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
   providers: [
     // ユーザ用認証
     CredentialsProvider({
-      id: 'user',
-      name: 'User',
+      id: "user",
+      name: "User",
       credentials: {
-        cardId: { label: 'Card ID', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        cardId: { label: "Card ID", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log('credentials: ', credentials);
-        const user = await findCardByIdAndPassword(credentials!.cardId, credentials!.password);
-        console.log('user: ', user);
+        console.log("credentials: ", credentials);
+        const user = await findCardByIdAndPassword(
+          credentials!.cardId,
+          credentials!.password,
+        );
+        console.log("user: ", user);
 
         if (!user) {
-          console.log('user does not exists');
-          throw new Error('user does not exists');
+          console.log("user does not exists");
+          throw new Error("user does not exists");
         }
 
         return { id: user.card_id, ...user };
@@ -61,6 +64,7 @@ export const authOptions = {
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
-    generateSessionToken: () => randomUUID?.() ?? randomBytes(32).toString('hex'),
+    generateSessionToken: () =>
+      randomUUID?.() ?? randomBytes(32).toString("hex"),
   },
 };

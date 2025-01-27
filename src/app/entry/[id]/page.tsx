@@ -1,16 +1,22 @@
-import { Flex } from '@mantine/core';
-import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
-import { Navbar } from '@/src/app/_layouts';
-import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
-import { findGetCourtById, findGetCourtSameSchedule } from '@/src/app/_lib/db/getCourt';
-import { EntryDetail } from '@/src/app/entry/_components/detail/EntryDetail';
-import { EntryDataWithCard, EntryDataWithCardAll } from '@/src/app/court/_types/court.type';
-import { createGuest } from '@/src/app/_lib/db/guest';
-import { notify_line } from '@/src/app/_utils/line';
-import { checkEntryExists, updateEntryComment } from '@/src/app/_lib/db/entry';
+import { Navbar } from "@/src/app/_layouts";
+import { checkEntryExists, updateEntryComment } from "@/src/app/_lib/db/entry";
+import {
+  findGetCourtById,
+  findGetCourtSameSchedule,
+} from "@/src/app/_lib/db/getCourt";
+import { createGuest } from "@/src/app/_lib/db/guest";
+import { authOptions } from "@/src/app/_lib/next-auth/authOptions";
+import { notify_line } from "@/src/app/_utils/line";
+import type {
+  EntryDataWithCard,
+  EntryDataWithCardAll,
+} from "@/src/app/court/_types/court.type";
+import { EntryDetail } from "@/src/app/entry/_components/detail/EntryDetail";
+import { Flex } from "@mantine/core";
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const getSameScheduleCourts = async (getCourt: EntryDataWithCardAll) =>
   (await findGetCourtSameSchedule({
@@ -22,8 +28,11 @@ const getSameScheduleCourts = async (getCourt: EntryDataWithCardAll) =>
     court: getCourt.court,
   })) as EntryDataWithCard[];
 
-const receptionNotify = async (formData: { reception: string; courtId: number }) => {
-  'use server';
+const receptionNotify = async (formData: {
+  reception: string;
+  courtId: number;
+}) => {
+  "use server";
 
   const { reception, courtId } = formData;
   const getCourt = (await findGetCourtById(courtId)) as EntryDataWithCardAll;
@@ -36,15 +45,15 @@ const receptionNotify = async (formData: { reception: string; courtId: number })
     (court, index) =>
       `\n${index + 1}件目\nコート予約名義；${court.card.user_nm}\n利用者番号：${
         court.card_id
-      }\n予約番号${court.reserve_no}`
+      }\n予約番号${court.reserve_no}`,
   );
   const msg = courtInfo + receptionPerson + receptionInfo;
-  console.log('msg: ', msg);
-  await notify_line(msg, '5YS72mlcNdNDbT8VgZT1VxSe1WOLBFZcWyfLcKHCJPP');
+  console.log("msg: ", msg);
+  await notify_line(msg, "5YS72mlcNdNDbT8VgZT1VxSe1WOLBFZcWyfLcKHCJPP");
 };
 
 const commentAdd = async (formData: { comment: string; courtId: number }) => {
-  'use server';
+  "use server";
 
   const { comment, courtId } = formData;
   const session = await getServerSession(authOptions);
@@ -58,11 +67,11 @@ const commentAdd = async (formData: { comment: string; courtId: number }) => {
     card_id: session.user.card_id,
     court_id: courtId,
   });
-  revalidatePath('/entry/[id]', 'page');
+  revalidatePath("/entry/[id]", "page");
 };
 
 const guestAdd = async (formData: { guestName: string; courtId: number }) => {
-  'use server';
+  "use server";
 
   const { guestName, courtId } = formData;
   const session = await getServerSession(authOptions);
@@ -79,8 +88,8 @@ const guestAdd = async (formData: { guestName: string; courtId: number }) => {
 
 ゲスト名：${guestName}
 招待者：${session.user.nick_nm}`;
-  await notify_line(msg, 'AmiDotEhZrkZWaGSc6a5HQNwtUbERzCcGPEuQ7tEwBG');
-  revalidatePath('/entry/[id]', 'page');
+  await notify_line(msg, "AmiDotEhZrkZWaGSc6a5HQNwtUbERzCcGPEuQ7tEwBG");
+  revalidatePath("/entry/[id]", "page");
 };
 
 const EntryDetailPage = async ({ params }: { params: { id: string } }) => {
@@ -92,7 +101,9 @@ const EntryDetailPage = async ({ params }: { params: { id: string } }) => {
       </div>
     );
   }
-  const getCourt = (await findGetCourtById(Number(params.id))) as EntryDataWithCardAll;
+  const getCourt = (await findGetCourtById(
+    Number(params.id),
+  )) as EntryDataWithCardAll;
   const sameScheduleCourts = await getSameScheduleCourts(getCourt);
 
   return (

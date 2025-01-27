@@ -1,7 +1,7 @@
+import { API_URL } from "@/src/app/_consts/environment.const";
 /* eslint-disable no-restricted-syntax */
-import axios from 'axios';
-import { useState } from 'react';
-import { API_URL } from '@/src/app/_consts/environment.const';
+import axios from "axios";
+import { useState } from "react";
 
 export const useManageCourt = () => {
   const [selectedPublic, setSelectedPublic] = useState<number[]>([]);

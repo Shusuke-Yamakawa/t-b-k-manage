@@ -1,8 +1,8 @@
-import { Card } from '@/src/app/_lib/db/card';
-import { Entry } from '@/src/app/_lib/db/entry';
-import { GetCourt } from '@/src/app/_lib/db/getCourt';
-import { Guest } from '@/src/app/_lib/db/guest';
-import { Id } from '@/src/app/_types/type';
+import type { Card } from "@/src/app/_lib/db/card";
+import type { Entry } from "@/src/app/_lib/db/entry";
+import type { GetCourt } from "@/src/app/_lib/db/getCourt";
+import type { Guest } from "@/src/app/_lib/db/guest";
+import type { Id } from "@/src/app/_types/type";
 
 export type EntryData = Id &
   GetCourt & { card: Card } & {
@@ -25,5 +25,11 @@ export type EntryForm = (Id &
     entries: (Id & Entry)[];
   } & { possibility: PossibilityDb })[];
 
-export type PossibilityDb = 'BothDays' | 'EitherDay' | 'Likely' | 'Unlikely' | 'NotAttending' | '';
-export type PossibilityDisplay = '◎' | '◯' | '△+' | '△-' | '☓' | '-';
+export type PossibilityDb =
+  | "BothDays"
+  | "EitherDay"
+  | "Likely"
+  | "Unlikely"
+  | "NotAttending"
+  | "";
+export type PossibilityDisplay = "◎" | "◯" | "△+" | "△-" | "☓" | "-";

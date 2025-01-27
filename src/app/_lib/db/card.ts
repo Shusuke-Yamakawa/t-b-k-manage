@@ -1,4 +1,4 @@
-import { prisma } from '@/src/app/_lib/prisma';
+import { prisma } from "@/src/app/_lib/prisma";
 
 export type Card = {
   card_id: string;
@@ -11,7 +11,8 @@ export type Card = {
   note: string;
 };
 
-export const createCard = async (params: Card) => prisma.card.create({ data: params });
+export const createCard = async (params: Card) =>
+  prisma.card.create({ data: params });
 
 export const updateCardDrawFlg = async (cardId: string, draw_flg: boolean) =>
   prisma.card.update({
@@ -34,7 +35,7 @@ export const findCardById = async (cardId: string) =>
 
 export const findCardByIdAndPassword = async (
   cardId: string,
-  password: string
+  password: string,
 ): Promise<Card | null> =>
   prisma.card.findUnique({
     where: {

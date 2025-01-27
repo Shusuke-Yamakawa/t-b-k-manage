@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Tooltip, UnstyledButton, rem } from '@mantine/core';
-import { signOut } from 'next-auth/react';
-import { IconHome2, IconLogout } from '@tabler/icons-react';
-import classes from './Navbar.module.css';
+import { Tooltip, UnstyledButton, rem } from "@mantine/core";
+import { type IconHome2, IconLogout } from "@tabler/icons-react";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import classes from "./Navbar.module.css";
 
 type NavbarLinkProps = {
   icon: typeof IconHome2;
@@ -14,19 +14,28 @@ type NavbarLinkProps = {
   onClick?(): void;
 };
 
-const NavbarLink = ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => (
+const NavbarLink = ({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+}: NavbarLinkProps) => (
   <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-    <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
+    <UnstyledButton
+      onClick={onClick}
+      className={classes.link}
+      data-active={active || undefined}
+    >
       <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
     </UnstyledButton>
   </Tooltip>
 );
 
 const data = [
-  { link: '/court', label: 'court' },
-  { link: '/entry', label: 'entry' },
-  { link: '/card', label: 'card' },
-  { link: '/manage', label: 'manage' },
+  { link: "/court", label: "court" },
+  { link: "/entry", label: "entry" },
+  { link: "/card", label: "card" },
+  { link: "/manage", label: "manage" },
 ];
 
 export const Navbar = () => {
@@ -48,9 +57,9 @@ export const Navbar = () => {
         icon={IconLogout}
         label="Logout"
         onClick={async () => {
-          console.log('logout');
+          console.log("logout");
           await signOut();
-          window.location.href = '/login';
+          window.location.href = "/login";
         }}
       />
     </nav>

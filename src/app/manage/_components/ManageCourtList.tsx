@@ -1,15 +1,15 @@
 /* eslint-disable no-restricted-syntax */
 
-'use client';
+"use client";
 
-import { Button, Checkbox, Flex, LoadingOverlay, Table } from '@mantine/core';
-import { FC } from 'react';
-import { useDisclosure } from '@mantine/hooks';
-import { GetCourt } from '@/src/app/_lib/db/getCourt';
-import { Card } from '@/src/app/_lib/db/card';
-import { Id } from '@/src/app/_types/type';
-import { CourtAddModal } from '@/src/app/manage/_components/CourtAddModal';
-import { useManageCourt } from '@/src/app/manage/_hooks/useManageCourt';
+import type { Card } from "@/src/app/_lib/db/card";
+import type { GetCourt } from "@/src/app/_lib/db/getCourt";
+import type { Id } from "@/src/app/_types/type";
+import { CourtAddModal } from "@/src/app/manage/_components/CourtAddModal";
+import { useManageCourt } from "@/src/app/manage/_hooks/useManageCourt";
+import { Button, Checkbox, Flex, LoadingOverlay, Table } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import type { FC } from "react";
 
 type Props = {
   data: (Id & GetCourt & { card: Card })[];
@@ -33,7 +33,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       key={d.id}
       bg={
         selectedPublic.includes(d.id) || selectedHold.includes(d.id)
-          ? 'var(--mantine-color-blue-light)'
+          ? "var(--mantine-color-blue-light)"
           : undefined
       }
     >
@@ -45,7 +45,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
             setSelectedPublic(
               event.currentTarget.checked
                 ? [...selectedPublic, d.id]
-                : selectedPublic.filter((position) => position !== d.id)
+                : selectedPublic.filter((position) => position !== d.id),
             )
           }
         />
@@ -58,7 +58,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
             setSelectedHold(
               event.currentTarget.checked
                 ? [...selectedHold, d.id]
-                : selectedHold.filter((position) => position !== d.id)
+                : selectedHold.filter((position) => position !== d.id),
             )
           }
         />
@@ -69,8 +69,8 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       <Table.Td>{d.to_time}</Table.Td>
       <Table.Td>{d.court}</Table.Td>
       <Table.Td>{d.card.user_nm}</Table.Td>
-      <Table.Td>{d.public_flg ? '公開' : '非公開'}</Table.Td>
-      <Table.Td>{d.hold_flg ? '開催' : '不開催'}</Table.Td>
+      <Table.Td>{d.public_flg ? "公開" : "非公開"}</Table.Td>
+      <Table.Td>{d.hold_flg ? "開催" : "不開催"}</Table.Td>
     </Table.Tr>
   ));
   return (
@@ -97,7 +97,11 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
         開催
       </Button>
       <CourtAddModal opened={opened} close={close} />
-      <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+      <LoadingOverlay
+        visible={visible}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <Table>
         <Table.Thead>
           <Table.Tr>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Flex, Table } from '@mantine/core';
-import { FC } from 'react';
-import Link from 'next/link';
-import { EntryData } from '@/src/app/court/_types/court.type';
+import type { EntryData } from "@/src/app/court/_types/court.type";
+import { Flex, Table } from "@mantine/core";
+import Link from "next/link";
+import type { FC } from "react";
 
 type Props = {
   data: EntryData[];
@@ -20,17 +20,28 @@ type Props = {
 
 export const EntryList: FC<Props> = ({ data }) => {
   const rows = data.map((d) => {
-    const bothDaysEntryNumber = d.entries.filter((e) => e.possibility === 'BothDays').length;
-    const eitherDayEntryNumber = d.entries.filter((e) => e.possibility === 'EitherDay').length;
-    const likelyEntryNumber = d.entries.filter((e) => e.possibility === 'Likely').length;
-    const unLikelyEntryNumber = d.entries.filter((e) => e.possibility === 'Unlikely').length;
+    const bothDaysEntryNumber = d.entries.filter(
+      (e) => e.possibility === "BothDays",
+    ).length;
+    const eitherDayEntryNumber = d.entries.filter(
+      (e) => e.possibility === "EitherDay",
+    ).length;
+    const likelyEntryNumber = d.entries.filter(
+      (e) => e.possibility === "Likely",
+    ).length;
+    const unLikelyEntryNumber = d.entries.filter(
+      (e) => e.possibility === "Unlikely",
+    ).length;
     const notAttendingEntryNumber = d.entries.filter(
-      (e) => e.possibility === 'NotAttending'
+      (e) => e.possibility === "NotAttending",
     ).length;
     const guestEntryNumber = d.guests.length;
     const isHold = d.hold_flg;
     return (
-      <Table.Tr key={d.id} bg={isHold ? 'var(--mantine-color-red-light)' : undefined}>
+      <Table.Tr
+        key={d.id}
+        bg={isHold ? "var(--mantine-color-red-light)" : undefined}
+      >
         <Table.Td>
           <Link href={`/entry/${d.id}`}>
             {`${d.month}/${d.day} ${d.from_time}-${d.to_time}@${d.court.slice(0, -2)}`}

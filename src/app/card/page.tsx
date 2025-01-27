@@ -1,11 +1,11 @@
-import { Flex } from '@mantine/core';
-import { getServerSession } from 'next-auth';
-import { Navbar } from '@/src/app/_layouts';
-import { findCardAll } from '@/src/app/_lib/db/card';
-import { CardList } from '@/src/app/card/_components/CardList';
-import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
+import { Navbar } from "@/src/app/_layouts";
+import { findCardAll } from "@/src/app/_lib/db/card";
+import { authOptions } from "@/src/app/_lib/next-auth/authOptions";
+import { CardList } from "@/src/app/card/_components/CardList";
+import { Flex } from "@mantine/core";
+import { getServerSession } from "next-auth";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function CardPage() {
   const card = await findCardAll();

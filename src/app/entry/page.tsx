@@ -1,12 +1,12 @@
-import { Flex } from '@mantine/core';
-import { getServerSession } from 'next-auth';
-import { Navbar } from '@/src/app/_layouts';
-import { authOptions } from '@/src/app/_lib/next-auth/authOptions';
-import { findGetCourtOverCurrentCourt } from '@/src/app/_lib/db/getCourt';
-import { EntryList } from '@/src/app/entry/_components/EntryList';
-import { EntryData } from '@/src/app/court/_types/court.type';
+import { Navbar } from "@/src/app/_layouts";
+import { findGetCourtOverCurrentCourt } from "@/src/app/_lib/db/getCourt";
+import { authOptions } from "@/src/app/_lib/next-auth/authOptions";
+import type { EntryData } from "@/src/app/court/_types/court.type";
+import { EntryList } from "@/src/app/entry/_components/EntryList";
+import { Flex } from "@mantine/core";
+import { getServerSession } from "next-auth";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const EntryPage = async () => {
   const session = await getServerSession(authOptions);

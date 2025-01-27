@@ -1,5 +1,5 @@
-import { prisma } from '@/src/app/_lib/prisma';
-import { PossibilityDb } from '@/src/app/court/_types/court.type';
+import { prisma } from "@/src/app/_lib/prisma";
+import type { PossibilityDb } from "@/src/app/court/_types/court.type";
 
 export type Entry = {
   card_id: string;
@@ -13,9 +13,13 @@ type UpdateEntryPossibility = {
   possibility: string;
 };
 
-export const createEntry = async (params: Entry) => prisma.entry.create({ data: params });
+export const createEntry = async (params: Entry) =>
+  prisma.entry.create({ data: params });
 
-export const updateEntryPossibility = async ({ id, possibility }: UpdateEntryPossibility) =>
+export const updateEntryPossibility = async ({
+  id,
+  possibility,
+}: UpdateEntryPossibility) =>
   prisma.entry.update({
     where: {
       id,
@@ -29,7 +33,7 @@ export const updateEntryComment = async ({
   card_id,
   court_id,
   comment,
-}: Omit<Entry, 'possibility'>) =>
+}: Omit<Entry, "possibility">) =>
   prisma.entry.update({
     where: {
       card_court: { card_id, court_id },
@@ -42,7 +46,7 @@ export const updateEntryComment = async ({
 export const checkEntryExists = async ({
   card_id,
   court_id,
-}: Pick<Entry, 'card_id' | 'court_id'>) =>
+}: Pick<Entry, "card_id" | "court_id">) =>
   prisma.entry
     .findFirst({
       where: {

@@ -1,11 +1,11 @@
-import { Button, TextInput, Flex } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { zodResolver } from 'mantine-form-zod-resolver';
-import { FC } from 'react';
-import { z } from 'zod';
+import { Button, Flex, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { zodResolver } from "mantine-form-zod-resolver";
+import type { FC } from "react";
+import { z } from "zod";
 
 const schema = z.object({
-  guestName: z.string().trim().min(2, { message: '2文字以上入力して' }),
+  guestName: z.string().trim().min(2, { message: "2文字以上入力して" }),
 });
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 export const Guest: FC<Props> = ({ courtId, guestAdd, open, close }) => {
   const form = useForm({
     initialValues: {
-      guestName: '',
+      guestName: "",
       courtId,
     },
     validate: zodResolver(schema),
@@ -37,8 +37,12 @@ export const Guest: FC<Props> = ({ courtId, guestAdd, open, close }) => {
       })}
     >
       <Flex direction="row" gap="xs">
-        <TextInput name="guestName" placeholder="ゲスト登録" {...form.getInputProps('guestName')} />
-        <Button style={{ padding: '8px' }} type="submit" size="xs">
+        <TextInput
+          name="guestName"
+          placeholder="ゲスト登録"
+          {...form.getInputProps("guestName")}
+        />
+        <Button style={{ padding: "8px" }} type="submit" size="xs">
           追加
         </Button>
       </Flex>

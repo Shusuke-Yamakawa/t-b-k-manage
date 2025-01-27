@@ -1,4 +1,4 @@
-import { prisma } from '@/src/app/_lib/prisma';
+import { prisma } from "@/src/app/_lib/prisma";
 
 export type Guest = {
   guest_nm: string;
@@ -6,4 +6,5 @@ export type Guest = {
   invited_card_id: string;
 };
 
-export const createGuest = async (params: Guest) => prisma.guest.create({ data: params });
+export const createGuest = async (params: Guest) =>
+  prisma.guest.create({ data: params });
