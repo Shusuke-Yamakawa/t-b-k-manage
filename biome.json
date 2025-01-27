@@ -30,5 +30,17 @@
   "formatter": {
     "indentWidth": 2,
     "indentStyle": "space"
-  }
+  },
+  "overrides": [
+    {
+      "include": ["page.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    }
+  ]
 }
