@@ -6,7 +6,7 @@ import {
 } from "@/src/app/_lib/db/getCourt";
 import { createGuest } from "@/src/app/_lib/db/guest";
 import { authOptions } from "@/src/app/_lib/next-auth/authOptions";
-import { notify_line } from "@/src/app/_utils/line";
+import { notifyLineMessage } from "@/src/app/_utils/line";
 import type {
   EntryDataWithCard,
   EntryDataWithCardAll,
@@ -49,7 +49,7 @@ const receptionNotify = async (formData: {
   );
   const msg = courtInfo + receptionPerson + receptionInfo;
   console.log("msg: ", msg);
-  await notify_line(msg, "5YS72mlcNdNDbT8VgZT1VxSe1WOLBFZcWyfLcKHCJPP");
+  await notifyLineMessage(msg);
 };
 
 const commentAdd = async (formData: { comment: string; courtId: number }) => {
@@ -88,7 +88,7 @@ const guestAdd = async (formData: { guestName: string; courtId: number }) => {
 
 ゲスト名：${guestName}
 招待者：${session.user.nick_nm}`;
-  await notify_line(msg, "AmiDotEhZrkZWaGSc6a5HQNwtUbERzCcGPEuQ7tEwBG");
+  await notifyLineMessage(msg);
   revalidatePath("/entry/[id]", "page");
 };
 

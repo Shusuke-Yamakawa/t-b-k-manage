@@ -1,5 +1,5 @@
 import { createCard } from "@/src/app/_lib/db/card";
-import { notify_line } from "@/src/app/_utils/line";
+import { notifyLineMessage } from "@/src/app/_utils/line";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       note: "新システム",
     });
     const msg = `${userNm}\n${nickNm}`;
-    await notify_line(msg, "7DAsvr7QdC0sDF6wW4HGg6aDcwJmfbiE98J7zbE8V4B");
+    await notifyLineMessage(msg);
   } catch (e) {
     console.log("登録エラー ", e);
   }

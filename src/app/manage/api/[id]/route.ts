@@ -2,12 +2,13 @@ import {
   findGetCourtById,
   updatePublicAndHoldFlg,
 } from "@/src/app/_lib/db/getCourt";
-import { notify_line } from "@/src/app/_utils/line";
+import { notifyLineMessage } from "@/src/app/_utils/line";
 import { getWeek } from "@/src/app/court/_utils/date.util";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(
+  // biome-ignore lint/correctness/noUnusedVariables: これがないとエラーになる
   req: Request,
   { params }: { params: { id: string } },
 ) {
@@ -31,7 +32,7 @@ export async function PUT(
     if (!court!.hold_flg && holdFlg) {
       const msg = `${month}/${day}(${week})${court!.from_time}-${court!.to_time}
 ${court!.court.slice(0, -2)}`;
-      await notify_line(msg);
+      await notifyLineMessage(msg);
     }
     await updatePublicAndHoldFlg({
       id: Number(params.id),
@@ -41,7 +42,8 @@ ${court!.court.slice(0, -2)}`;
     return new Response(JSON.stringify({ message: "ok" }), {
       headers: { "Content-Type": "application/json" },
     });
-  } catch (e) {
+  } catch (error) {
+    console.error(error);
     return new Response(JSON.stringify({ error: "Failed to delete court" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
