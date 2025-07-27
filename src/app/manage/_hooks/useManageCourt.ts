@@ -18,7 +18,7 @@ export const useManageCourt = () => {
           holdFlg: court.hold_flg,
         });
       } catch (error) {
-        console.error(`Failed to update court with ID: ${id}`);
+        console.error(`Failed to update court with ID: ${id}`, error);
         break;
       }
     }
@@ -30,14 +30,19 @@ export const useManageCourt = () => {
       try {
         const getCourt = await axios.get(`${API_URL}manage/api/${id}`);
         const court = getCourt.data;
+        if (!court.reserve_no && !court.court.includes("大沢")) {
+          throw new Error(
+            "予約番号が設定されていないため、公開フラグを変更できません",
+          );
+        }
         const updHoldFlg = !court.hold_flg;
         await axios.put(`${API_URL}manage/api/${id}`, {
           publicFlg: court.public_flg,
           holdFlg: updHoldFlg,
         });
       } catch (error) {
-        console.error(`Failed to update court with ID: ${id}`);
-        break;
+        console.error(`Failed to update court with ID: ${id}`, error);
+        throw error;
       }
     }
     // リフェッチする

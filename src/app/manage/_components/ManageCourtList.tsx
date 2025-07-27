@@ -9,6 +9,7 @@ import { CourtAddModal } from "@/src/app/manage/_components/CourtAddModal";
 import { useManageCourt } from "@/src/app/manage/_hooks/useManageCourt";
 import { Button, Checkbox, Flex, LoadingOverlay, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import type { FC } from "react";
 
 type Props = {
@@ -25,7 +26,7 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
     holdCourt,
   } = useManageCourt();
 
-  const [visible, { open }] = useDisclosure(false);
+  const [visible, { open, close: closeVisible }] = useDisclosure(false);
   const [opened, { open: modalOpen, close }] = useDisclosure(false);
 
   const rows = data.map((d) => (
@@ -90,7 +91,18 @@ export const ManageCourtList: FC<Props> = ({ data }) => {
       <Button
         onClick={async () => {
           open();
-          await holdCourt();
+          try {
+            await holdCourt();
+          } catch {
+            closeVisible();
+            // TODO ちゃんと出てない
+            notifications.show({
+              color: "red",
+              title: "エラーが発生",
+              message: "開催フラグを変更できません",
+              autoClose: false,
+            });
+          }
         }}
         variant="light"
       >
