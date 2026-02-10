@@ -21,14 +21,14 @@ export const CourtAddModal: FC<Props> = ({ opened, close }) => {
   const form = useForm({
     initialValues: {
       cardId: "10041424",
-      year: 2025,
-      month: 4,
+      year: 2026,
+      month: 5,
       day: 1,
       fromTime: 9,
       toTime: 11,
       court: "大沢総合4ばん",
       reserveNo: "",
-      publicFlg: "非公開",
+      publicFlg: "公開",
     },
   });
 
