@@ -19,7 +19,7 @@ export const notifyLineMessage = async (msg: string) => {
       messages: [
         {
           type: "text",
-          text: `${msg}\nFivot`,
+          text: `${msg}`,
         },
       ],
     },
